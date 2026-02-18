@@ -57,7 +57,7 @@ chmod +x scripts/test-api.sh
 환경변수로 동작을 조정할 수 있습니다:
 
 - `BASE_URL` (기본: `http://localhost:8080`)
-- `ENROLL_STRATEGY` (기본: `atomic`, 지원: `default|pessimistic|optimistic|atomic`)
+- `ENROLL_STRATEGY` (기본: `atomic`, 지원: `default|pessimistic|optimistic|atomic|separated`)
 - `PARALLEL_REQUESTS` (기본: `20`)
 
 예시:
