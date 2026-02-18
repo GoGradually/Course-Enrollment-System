@@ -6,6 +6,8 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
+    hikari:
+      transaction-isolation: TRANSACTION_READ_COMMITTED
   h2:
     console:
       enabled: true

@@ -1,0 +1,4 @@
+spring:
+  datasource:
+    hikari:
+      transaction-isolation: TRANSACTION_READ_COMMITTED
