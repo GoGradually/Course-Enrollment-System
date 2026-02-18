@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import me.gogradually.courseenrollmentsystem.application.enrollment.EnrollmentCommandService;
+import me.gogradually.courseenrollmentsystem.application.enrollment.orchestration.EnrollmentCommandService;
 import me.gogradually.courseenrollmentsystem.interfaces.dto.EnrollmentRequest;
 import me.gogradually.courseenrollmentsystem.interfaces.dto.EnrollmentResponse;
 import org.springframework.http.ResponseEntity;
@@ -82,6 +82,23 @@ public class EnrollmentController {
     ) {
         EnrollmentResponse response = EnrollmentResponse.from(
                 enrollmentCommandService.enrollWithAtomicUpdate(request.studentId(), request.courseId())
+        );
+        return ResponseEntity.status(201).body(response);
+    }
+
+    @Operation(summary = "수강신청 - 트랜잭션 분리 전략")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "수강신청 성공"),
+            @ApiResponse(responseCode = "404", description = "학생 또는 강좌를 찾을 수 없음"),
+            @ApiResponse(responseCode = "409", description = "중복 신청 또는 동시성 충돌"),
+            @ApiResponse(responseCode = "422", description = "학점/시간표/정원 규칙 위반")
+    })
+    @PostMapping("/separated")
+    public ResponseEntity<EnrollmentResponse> enrollWithSeparatedTransaction(
+            @Valid @RequestBody EnrollmentRequest request
+    ) {
+        EnrollmentResponse response = EnrollmentResponse.from(
+                enrollmentCommandService.enrollWithSeparatedTransaction(request.studentId(), request.courseId())
         );
         return ResponseEntity.status(201).body(response);
     }

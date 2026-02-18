@@ -1,7 +1,7 @@
 package me.gogradually.courseenrollmentsystem.interfaces.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import me.gogradually.courseenrollmentsystem.application.enrollment.EnrollmentResult;
+import me.gogradually.courseenrollmentsystem.application.enrollment.orchestration.EnrollmentResult;
 
 @Schema(description = "수강신청 응답")
 public record EnrollmentResponse(
