@@ -16,6 +16,8 @@ public interface CourseRepository {
 
     int incrementEnrolledCountIfAvailable(Long courseId);
 
+    int decrementEnrolledCountIfPositive(Long courseId);
+
     void clearPersistenceContext();
 
     Course save(Course course);
