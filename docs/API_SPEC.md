@@ -141,6 +141,11 @@ Base URL: `http://localhost:8080`
 - 설명: 원자적 업데이트 전략 수강신청
 - 응답 코드: `/enrollments`와 동일
 
+### POST `/enrollments/separated`
+
+- 설명: 트랜잭션 분리 전략 수강신청
+- 응답 코드: `/enrollments`와 동일
+
 성공 응답 예시:
 
 ```json
@@ -237,6 +242,9 @@ curl -s "http://localhost:8080/students?limit=5"
 curl -s "http://localhost:8080/courses?limit=5"
 curl -s "http://localhost:8080/professors?limit=5"
 curl -s -X POST http://localhost:8080/enrollments/atomic \
+  -H 'Content-Type: application/json' \
+  -d '{"studentId":1,"courseId":1}'
+curl -s -X POST http://localhost:8080/enrollments/separated \
   -H 'Content-Type: application/json' \
   -d '{"studentId":1,"courseId":1}'
 curl -i -X DELETE http://localhost:8080/enrollments/1

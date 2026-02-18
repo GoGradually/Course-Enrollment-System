@@ -87,12 +87,15 @@
 
 ### 공통 원칙
 
-- 수강신청 트랜잭션 격리 수준은 `READ_COMMITTED`로 고정
+- 수강신청 트랜잭션 격리 수준은 프로파일로 전환 가능
+  - `read-committed` -> `TRANSACTION_READ_COMMITTED`
+  - `repeatable-read` -> `TRANSACTION_REPEATABLE_READ`
 - 성능 비교/검증을 위해 전략별 API를 분리
   - `POST /enrollments` (기본)
   - `POST /enrollments/pessimistic`
   - `POST /enrollments/optimistic`
   - `POST /enrollments/atomic`
+  - `POST /enrollments/separated`
 
 ### 기본 전략: Atomic Update(락 범위 최소화)
 
