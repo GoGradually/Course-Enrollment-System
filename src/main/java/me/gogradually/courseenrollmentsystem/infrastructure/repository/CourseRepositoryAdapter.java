@@ -68,6 +68,18 @@ public class CourseRepositoryAdapter implements CourseRepository {
     }
 
     @Override
+    public int decrementEnrolledCountIfPositive(Long courseId) {
+        return entityManager.createQuery("""
+                        update Course c
+                        set c.enrolledCount = c.enrolledCount - 1
+                        where c.id = :courseId
+                          and c.enrolledCount > 0
+                        """)
+                .setParameter("courseId", courseId)
+                .executeUpdate();
+    }
+
+    @Override
     public void clearPersistenceContext() {
         entityManager.clear();
     }
