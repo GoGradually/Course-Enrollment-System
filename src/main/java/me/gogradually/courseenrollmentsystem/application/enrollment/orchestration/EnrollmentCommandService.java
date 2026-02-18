@@ -1,4 +1,4 @@
-package me.gogradually.courseenrollmentsystem.application.enrollment;
+package me.gogradually.courseenrollmentsystem.application.enrollment.orchestration;
 
 import lombok.RequiredArgsConstructor;
 import me.gogradually.courseenrollmentsystem.domain.enrollment.Enrollment;
@@ -30,6 +30,11 @@ public class EnrollmentCommandService {
 
     public EnrollmentResult enrollWithAtomicUpdate(Long studentId, Long courseId) {
         Enrollment enrollment = enrollmentApplicationService.enrollWithAtomicUpdate(studentId, courseId);
+        return toResult(enrollment);
+    }
+
+    public EnrollmentResult enrollWithSeparatedTransaction(Long studentId, Long courseId) {
+        Enrollment enrollment = enrollmentApplicationService.enrollWithSeparatedTransaction(studentId, courseId);
         return toResult(enrollment);
     }
 
