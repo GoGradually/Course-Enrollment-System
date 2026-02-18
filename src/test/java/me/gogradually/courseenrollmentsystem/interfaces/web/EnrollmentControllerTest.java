@@ -1,7 +1,7 @@
 package me.gogradually.courseenrollmentsystem.interfaces.web;
 
-import me.gogradually.courseenrollmentsystem.application.enrollment.EnrollmentCommandService;
-import me.gogradually.courseenrollmentsystem.application.enrollment.EnrollmentResult;
+import me.gogradually.courseenrollmentsystem.application.enrollment.orchestration.EnrollmentCommandService;
+import me.gogradually.courseenrollmentsystem.application.enrollment.orchestration.EnrollmentResult;
 import me.gogradually.courseenrollmentsystem.domain.exception.DuplicateEnrollmentException;
 import me.gogradually.courseenrollmentsystem.infrastructure.web.GlobalExceptionHandler;
 import org.junit.jupiter.api.Test;
@@ -101,6 +101,27 @@ class EnrollmentControllerTest {
 
         mockMvc.perform(
                         post("/enrollments/atomic")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {
+                                          "studentId": 1,
+                                          "courseId": 101
+                                        }
+                                        """)
+                )
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.enrollmentId").value(1001))
+                .andExpect(jsonPath("$.status").value("ACTIVE"));
+    }
+
+    @Test
+    void shouldCreateEnrollmentWithSeparatedStrategy() throws Exception {
+        given(enrollmentCommandService.enrollWithSeparatedTransaction(1L, 101L)).willReturn(
+                new EnrollmentResult(1001L, 1L, 101L, "ACTIVE")
+        );
+
+        mockMvc.perform(
+                        post("/enrollments/separated")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {
