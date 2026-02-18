@@ -1,6 +1,8 @@
 package me.gogradually.courseenrollmentsystem.application.enrollment;
 
 import jakarta.persistence.EntityManager;
+import me.gogradually.courseenrollmentsystem.application.enrollment.strategy.EnrollmentStrategyRouter;
+import me.gogradually.courseenrollmentsystem.application.enrollment.strategy.EnrollmentStrategyType;
 import me.gogradually.courseenrollmentsystem.domain.course.Course;
 import me.gogradually.courseenrollmentsystem.domain.course.CourseRepository;
 import me.gogradually.courseenrollmentsystem.domain.course.TimeSlot;
@@ -34,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class EnrollmentConcurrencyIntegrationTest {
 
     @Autowired
-    private EnrollmentApplicationService enrollmentApplicationService;
+    private EnrollmentStrategyRouter enrollmentStrategyRouter;
 
     @Autowired
     private EnrollmentRepository enrollmentRepository;
@@ -49,11 +51,11 @@ class EnrollmentConcurrencyIntegrationTest {
     private PlatformTransactionManager transactionManager;
 
     @ParameterizedTest
-    @EnumSource(EnrollmentStrategy.class)
-    void shouldAllowOnlyOneSuccessWhenOneSeatAndHundredRequests(EnrollmentStrategy strategy) throws InterruptedException {
+    @EnumSource(EnrollmentStrategyType.class)
+    void shouldAllowOnlyOneSuccessWhenOneSeatAndHundredRequests(EnrollmentStrategyType strategyType) throws InterruptedException {
         SeatRaceFixture fixture = createSeatRaceFixture(1, 100);
 
-        ConcurrentResult result = runSeatRace(fixture.studentIds(), fixture.courseId(), strategy);
+        ConcurrentResult result = runSeatRace(fixture.studentIds(), fixture.courseId(), strategyType);
 
         assertEquals(1, result.successCount());
         assertEquals(99, result.failureCount());
@@ -62,15 +64,15 @@ class EnrollmentConcurrencyIntegrationTest {
     }
 
     @ParameterizedTest
-    @EnumSource(EnrollmentStrategy.class)
-    void shouldKeepStudentRuleConsistencyUnderConcurrentRequests(EnrollmentStrategy strategy) throws InterruptedException {
+    @EnumSource(EnrollmentStrategyType.class)
+    void shouldKeepStudentRuleConsistencyUnderConcurrentRequests(EnrollmentStrategyType strategyType) throws InterruptedException {
         SameStudentFixture fixture = createSameStudentConflictFixture();
 
         ConcurrentResult result = runSameStudentRace(
                 fixture.studentId(),
                 fixture.firstCourseId(),
                 fixture.secondCourseId(),
-                strategy
+                strategyType
         );
 
         assertEquals(1, result.successCount());
@@ -167,19 +169,25 @@ class EnrollmentConcurrencyIntegrationTest {
         });
     }
 
-    private ConcurrentResult runSeatRace(List<Long> studentIds, Long courseId, EnrollmentStrategy strategy)
+    private ConcurrentResult runSeatRace(List<Long> studentIds, Long courseId, EnrollmentStrategyType strategyType)
             throws InterruptedException {
-        return runConcurrent(studentIds.size(), index -> strategy.enroll(enrollmentApplicationService, studentIds.get(index), courseId));
+        return runConcurrent(
+                studentIds.size(),
+                index -> enrollmentStrategyRouter.get(strategyType).enroll(studentIds.get(index), courseId)
+        );
     }
 
     private ConcurrentResult runSameStudentRace(
             Long studentId,
             Long firstCourseId,
             Long secondCourseId,
-            EnrollmentStrategy strategy
+            EnrollmentStrategyType strategyType
     ) throws InterruptedException {
         List<Long> courseIds = List.of(firstCourseId, secondCourseId);
-        return runConcurrent(2, index -> strategy.enroll(enrollmentApplicationService, studentId, courseIds.get(index)));
+        return runConcurrent(
+                2,
+                index -> enrollmentStrategyRouter.get(strategyType).enroll(studentId, courseIds.get(index))
+        );
     }
 
     private ConcurrentResult runConcurrent(int taskCount, IntThrowingRunnable task) throws InterruptedException {
@@ -243,29 +251,6 @@ class EnrollmentConcurrencyIntegrationTest {
             throw new IllegalStateException("Transaction callback returned null");
         }
         return result;
-    }
-
-    private enum EnrollmentStrategy {
-        PESSIMISTIC {
-            @Override
-            void enroll(EnrollmentApplicationService service, Long studentId, Long courseId) {
-                service.enrollWithPessimisticLock(studentId, courseId);
-            }
-        },
-        OPTIMISTIC {
-            @Override
-            void enroll(EnrollmentApplicationService service, Long studentId, Long courseId) {
-                service.enrollWithOptimisticLock(studentId, courseId);
-            }
-        },
-        ATOMIC {
-            @Override
-            void enroll(EnrollmentApplicationService service, Long studentId, Long courseId) {
-                service.enrollWithAtomicUpdate(studentId, courseId);
-            }
-        };
-
-        abstract void enroll(EnrollmentApplicationService service, Long studentId, Long courseId);
     }
 
     @FunctionalInterface
