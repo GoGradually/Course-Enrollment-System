@@ -2,15 +2,12 @@ spring:
   application:
     name: Course-Enrollment-System
   datasource:
-    url: jdbc:h2:mem:musinsa;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:mysql://localhost:3307/course_enrollment?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: pass
     hikari:
       transaction-isolation: TRANSACTION_READ_COMMITTED
-  h2:
-    console:
-      enabled: true
   jpa:
     open-in-view: false
     hibernate:

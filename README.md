@@ -7,12 +7,14 @@
 - Java 21
 - Spring Boot 3.3.5
 - Spring Data JPA
-- H2 In-Memory Database
+- MySQL 8.x
 - SpringDoc OpenAPI (Swagger UI)
 
 ## 2. 실행 전 요구사항
 
 - JDK 21
+- MySQL (localhost:3307)
+- 데이터베이스: `course_enrollment`
 - (권장) `curl`, `jq`
 
 ## 3. 빌드 및 테스트
@@ -37,7 +39,6 @@
 - Health Check: `GET /health`
 - Swagger UI: `http://localhost:8080/swagger-ui/index.html`
 - OpenAPI JSON: `http://localhost:8080/v3/api-docs`
-- H2 Console: `http://localhost:8080/h2-console`
 
 ## 5. API 문서
 
