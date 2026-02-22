@@ -35,15 +35,16 @@ public class AtomicEnrollmentStrategy implements EnrollmentStrategy {
     @Override
     @Transactional
     public Enrollment enroll(Long studentId, Long courseId) {
-        Student student = studentRepository.findByIdForUpdate(studentId)
-                .orElseThrow(() -> new StudentNotFoundException(studentId));
+        Long enrollmentId = persistenceSupport.insertActiveOrThrow(studentId, courseId);
+        persistenceSupport.incrementSeatOrThrow(courseId);
 
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new CourseNotFoundException(courseId));
 
-        Long enrollmentId = persistenceSupport.insertActiveOrThrow(studentId, courseId);
+        Student student = studentRepository.findByIdForUpdate(studentId)
+                .orElseThrow(() -> new StudentNotFoundException(studentId));
+
         ruleValidator.validateAfterAtomicInsert(studentId, enrollmentId, student, course);
-        persistenceSupport.incrementSeatOrThrow(courseId, course);
         courseRepository.clearPersistenceContext();
 
         return enrollmentRepository.findById(enrollmentId)
