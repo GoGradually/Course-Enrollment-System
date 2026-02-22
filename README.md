@@ -1,4 +1,4 @@
-# Musinsa AI Coding Test - University Enrollment API
+# University Enrollment API
 
 대학교 수강신청 시스템 백엔드 과제 구현입니다.
 
