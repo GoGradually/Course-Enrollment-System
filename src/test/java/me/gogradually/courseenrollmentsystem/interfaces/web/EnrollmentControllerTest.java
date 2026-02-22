@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.dao.CannotAcquireLockException;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -153,6 +155,48 @@ class EnrollmentControllerTest {
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.code").value("DUPLICATE_ENROLLMENT"))
                 .andExpect(jsonPath("$.message").exists())
+                .andExpect(jsonPath("$.timestamp").exists());
+    }
+
+    @Test
+    void shouldReturnConflictWhenPessimisticLockExceptionOccurs() throws Exception {
+        given(enrollmentCommandService.enrollWithPessimisticLock(1L, 101L))
+                .willThrow(new CannotAcquireLockException("lock timeout"));
+
+        mockMvc.perform(
+                        post("/enrollments/pessimistic")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {
+                                          "studentId": 1,
+                                          "courseId": 101
+                                        }
+                                        """)
+                )
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("ENROLLMENT_CONCURRENCY_CONFLICT"))
+                .andExpect(jsonPath("$.message").value("Enrollment request failed due to concurrency conflict"))
+                .andExpect(jsonPath("$.timestamp").exists());
+    }
+
+    @Test
+    void shouldReturnConflictWhenOptimisticLockExceptionOccurs() throws Exception {
+        given(enrollmentCommandService.enrollWithOptimisticLock(1L, 101L))
+                .willThrow(new OptimisticLockingFailureException("optimistic lock"));
+
+        mockMvc.perform(
+                        post("/enrollments/optimistic")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {
+                                          "studentId": 1,
+                                          "courseId": 101
+                                        }
+                                        """)
+                )
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("ENROLLMENT_CONCURRENCY_CONFLICT"))
+                .andExpect(jsonPath("$.message").value("Enrollment request failed due to concurrency conflict"))
                 .andExpect(jsonPath("$.timestamp").exists());
     }
 

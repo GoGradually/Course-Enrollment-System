@@ -1,5 +1,7 @@
 package me.gogradually.courseenrollmentsystem.application.enrollment.strategy;
 
+import jakarta.persistence.LockTimeoutException;
+import jakarta.persistence.PessimisticLockException;
 import me.gogradually.courseenrollmentsystem.application.enrollment.support.EnrollmentCancellationProcessor;
 import me.gogradually.courseenrollmentsystem.application.enrollment.support.EnrollmentRuleValidator;
 import me.gogradually.courseenrollmentsystem.domain.course.Course;
@@ -82,9 +84,42 @@ class PessimisticEnrollmentStrategyRetryTest {
     }
 
     @Test
+    void shouldRetryAndSucceedWhenLockTimeoutOccursInitially() {
+        when(courseRepository.findByIdForUpdate(2L))
+                .thenThrow(new LockTimeoutException("lock timeout"))
+                .thenThrow(new LockTimeoutException("lock timeout"))
+                .thenReturn(Optional.of(course));
+
+        Enrollment enrollment = pessimisticEnrollmentStrategy.enroll(1L, 2L);
+
+        assertEquals(student, enrollment.getStudent());
+        assertEquals(course, enrollment.getCourse());
+        verify(courseRepository, times(3)).findByIdForUpdate(2L);
+        verify(studentRepository, times(1)).findByIdForUpdate(1L);
+    }
+
+    @Test
     void shouldThrowConflictWhenRetryExhaustedByPessimisticLockFailure() {
         when(courseRepository.findByIdForUpdate(2L))
                 .thenThrow(new PessimisticLockingFailureException("pessimistic lock failure"));
+
+        EnrollmentConcurrencyConflictException exception = assertThrows(
+                EnrollmentConcurrencyConflictException.class,
+                () -> pessimisticEnrollmentStrategy.enroll(1L, 2L)
+        );
+
+        assertEquals(
+                "Enrollment concurrency conflict. studentId=1, courseId=2, retryCount=3",
+                exception.getMessage()
+        );
+        verify(courseRepository, times(3)).findByIdForUpdate(2L);
+        verify(studentRepository, times(0)).findByIdForUpdate(1L);
+    }
+
+    @Test
+    void shouldThrowConflictWhenRetryExhaustedByJpaPessimisticLockException() {
+        when(courseRepository.findByIdForUpdate(2L))
+                .thenThrow(new PessimisticLockException("pessimistic lock"));
 
         EnrollmentConcurrencyConflictException exception = assertThrows(
                 EnrollmentConcurrencyConflictException.class,

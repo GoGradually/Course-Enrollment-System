@@ -24,7 +24,7 @@ public class EnrollmentController {
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "수강신청 성공"),
             @ApiResponse(responseCode = "404", description = "학생 또는 강좌를 찾을 수 없음"),
-            @ApiResponse(responseCode = "409", description = "중복 신청"),
+            @ApiResponse(responseCode = "409", description = "중복 신청 또는 동시성/락 충돌(재시도 소진 포함)"),
             @ApiResponse(responseCode = "422", description = "학점/시간표/정원 규칙 위반")
     })
     @PostMapping
@@ -39,7 +39,7 @@ public class EnrollmentController {
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "수강신청 성공"),
             @ApiResponse(responseCode = "404", description = "학생 또는 강좌를 찾을 수 없음"),
-            @ApiResponse(responseCode = "409", description = "중복 신청 또는 동시성 충돌"),
+            @ApiResponse(responseCode = "409", description = "중복 신청 또는 동시성/락 충돌(재시도 소진 포함)"),
             @ApiResponse(responseCode = "422", description = "학점/시간표/정원 규칙 위반")
     })
     @PostMapping("/pessimistic")
@@ -56,7 +56,7 @@ public class EnrollmentController {
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "수강신청 성공"),
             @ApiResponse(responseCode = "404", description = "학생 또는 강좌를 찾을 수 없음"),
-            @ApiResponse(responseCode = "409", description = "중복 신청 또는 동시성 충돌"),
+            @ApiResponse(responseCode = "409", description = "중복 신청 또는 동시성/락 충돌(재시도 소진 포함)"),
             @ApiResponse(responseCode = "422", description = "학점/시간표/정원 규칙 위반")
     })
     @PostMapping("/optimistic")
@@ -73,7 +73,7 @@ public class EnrollmentController {
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "수강신청 성공"),
             @ApiResponse(responseCode = "404", description = "학생 또는 강좌를 찾을 수 없음"),
-            @ApiResponse(responseCode = "409", description = "중복 신청 또는 동시성 충돌"),
+            @ApiResponse(responseCode = "409", description = "중복 신청 또는 동시성/락 충돌(재시도 소진 포함)"),
             @ApiResponse(responseCode = "422", description = "학점/시간표/정원 규칙 위반")
     })
     @PostMapping("/atomic")
@@ -90,7 +90,7 @@ public class EnrollmentController {
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "수강신청 성공"),
             @ApiResponse(responseCode = "404", description = "학생 또는 강좌를 찾을 수 없음"),
-            @ApiResponse(responseCode = "409", description = "중복 신청 또는 동시성 충돌"),
+            @ApiResponse(responseCode = "409", description = "중복 신청 또는 동시성/락 충돌(재시도 소진 포함)"),
             @ApiResponse(responseCode = "422", description = "학점/시간표/정원 규칙 위반")
     })
     @PostMapping("/separated")

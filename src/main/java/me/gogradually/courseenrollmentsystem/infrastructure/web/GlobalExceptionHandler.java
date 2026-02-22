@@ -1,11 +1,19 @@
 package me.gogradually.courseenrollmentsystem.infrastructure.web;
 
+import jakarta.persistence.LockTimeoutException;
+import jakarta.persistence.OptimisticLockException;
+import jakarta.persistence.PessimisticLockException;
 import jakarta.validation.ConstraintViolationException;
 import me.gogradually.courseenrollmentsystem.domain.exception.*;
 import me.gogradually.courseenrollmentsystem.interfaces.dto.ErrorResponse;
+import org.springframework.dao.CannotAcquireLockException;
+import org.springframework.dao.CannotSerializeTransactionException;
+import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.retry.ExhaustedRetryException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -46,6 +54,24 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<ErrorResponse> handleConflict(DomainException exception) {
         return buildResponse(HttpStatus.CONFLICT, toCode(exception), exception.getMessage());
+    }
+
+    @ExceptionHandler({
+            CannotAcquireLockException.class,
+            PessimisticLockingFailureException.class,
+            OptimisticLockingFailureException.class,
+            CannotSerializeTransactionException.class,
+            LockTimeoutException.class,
+            OptimisticLockException.class,
+            PessimisticLockException.class,
+            ExhaustedRetryException.class
+    })
+    public ResponseEntity<ErrorResponse> handleConcurrencyConflict(Exception exception) {
+        return buildResponse(
+                HttpStatus.CONFLICT,
+                "ENROLLMENT_CONCURRENCY_CONFLICT",
+                "Enrollment request failed due to concurrency conflict"
+        );
     }
 
     @ExceptionHandler({

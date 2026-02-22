@@ -39,12 +39,16 @@ public class OptimisticEnrollmentStrategy implements EnrollmentStrategy {
 
     @Recover
     public Enrollment recover(OptimisticLockingFailureException exception, Long studentId, Long courseId) {
-        throw new EnrollmentConcurrencyConflictException(studentId, courseId, RETRY_LIMIT);
+        throw conflict(studentId, courseId);
     }
 
     @Recover
     public Enrollment recover(OptimisticLockException exception, Long studentId, Long courseId) {
-        throw new EnrollmentConcurrencyConflictException(studentId, courseId, RETRY_LIMIT);
+        throw conflict(studentId, courseId);
+    }
+
+    private EnrollmentConcurrencyConflictException conflict(Long studentId, Long courseId) {
+        return new EnrollmentConcurrencyConflictException(studentId, courseId, RETRY_LIMIT);
     }
 
     @Override
