@@ -31,4 +31,5 @@ app:
     professor-count: 120
     student-count: 10000
     course-count: 600
+    hot-course-capacity: 100
     batch-size: 500

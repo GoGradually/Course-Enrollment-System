@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,6 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         "app.seed.professor-count=100",
         "app.seed.student-count=10000",
         "app.seed.course-count=500",
+        "app.seed.hot-course-capacity=100",
         "app.seed.batch-size=500"
 })
 class InitialDataGeneratorIntegrationTest {
@@ -50,6 +52,9 @@ class InitialDataGeneratorIntegrationTest {
                 .allMatch(name -> !name.matches("User\\d+"));
         assertThat(courseJpaRepository.findAll(PageRequest.of(0, 50)).stream().map(Course::getName))
                 .allMatch(name -> !name.matches("Course\\d+"));
+        assertThat(courseJpaRepository.findAll(PageRequest.of(0, 500, Sort.by(Sort.Direction.ASC, "id"))).stream()
+                .map(Course::getCapacity))
+                .contains(100);
 
         long beforeDepartmentCount = departmentJpaRepository.count();
         long beforeProfessorCount = professorJpaRepository.count();

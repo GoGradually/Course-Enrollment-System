@@ -10,6 +10,7 @@ public record InitialDataProperties(
         int professorCount,
         int studentCount,
         int courseCount,
+        int hotCourseCapacity,
         int batchSize
 ) {
 
@@ -26,6 +27,9 @@ public record InitialDataProperties(
             }
             if (courseCount < 1) {
                 throw new IllegalArgumentException("app.seed.course-count must be positive");
+            }
+            if (hotCourseCapacity < 1) {
+                throw new IllegalArgumentException("app.seed.hot-course-capacity must be positive");
             }
             if (batchSize < 1) {
                 throw new IllegalArgumentException("app.seed.batch-size must be positive");

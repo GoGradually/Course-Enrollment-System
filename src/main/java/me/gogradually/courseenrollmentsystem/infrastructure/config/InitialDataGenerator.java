@@ -258,7 +258,7 @@ public class InitialDataGenerator implements ApplicationRunner {
                     createCourseCode(departmentCodeById.get(departmentId), sequence),
                     createCourseName(i, random),
                     pickCredits(random),
-                    20 + random.nextInt(41),
+                    pickCapacity(i, random),
                     0,
                     createTimeSlot(i),
                     entityManager.getReference(Department.class, departmentId),
@@ -321,6 +321,13 @@ public class InitialDataGenerator implements ApplicationRunner {
             return 3;
         }
         return 4;
+    }
+
+    private int pickCapacity(int index, Random random) {
+        if (index == 0) {
+            return properties.hotCourseCapacity();
+        }
+        return 20 + random.nextInt(41);
     }
 
     private TimeSlot createTimeSlot(int index) {
