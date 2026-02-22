@@ -71,6 +71,7 @@ export function createOptions(runConfig) {
   }
 
   return {
+    summaryTrendStats: ['avg', 'min', 'med', 'max', 'p(90)', 'p(95)', 'p(99)'],
     scenarios: {
       hot_course: {
         executor: 'per-vu-iterations',
