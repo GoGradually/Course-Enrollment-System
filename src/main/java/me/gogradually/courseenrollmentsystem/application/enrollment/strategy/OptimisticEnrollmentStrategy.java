@@ -7,6 +7,9 @@ import me.gogradually.courseenrollmentsystem.application.enrollment.tx.Optimisti
 import me.gogradually.courseenrollmentsystem.domain.enrollment.Enrollment;
 import me.gogradually.courseenrollmentsystem.domain.exception.EnrollmentConcurrencyConflictException;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,17 +28,22 @@ public class OptimisticEnrollmentStrategy implements EnrollmentStrategy {
     }
 
     @Override
+    @Retryable(
+            retryFor = {OptimisticLockingFailureException.class, OptimisticLockException.class},
+            maxAttempts = RETRY_LIMIT,
+            backoff = @Backoff(delay = 0)
+    )
     public Enrollment enroll(Long studentId, Long courseId) {
-        for (int attempt = 1; attempt <= RETRY_LIMIT; attempt++) {
-            try {
-                return optimisticEnrollmentTxExecutor.executeOnce(studentId, courseId);
-            } catch (OptimisticLockingFailureException | OptimisticLockException exception) {
-                if (attempt == RETRY_LIMIT) {
-                    throw new EnrollmentConcurrencyConflictException(studentId, courseId, attempt);
-                }
-            }
-        }
+        return optimisticEnrollmentTxExecutor.executeOnce(studentId, courseId);
+    }
 
+    @Recover
+    public Enrollment recover(OptimisticLockingFailureException exception, Long studentId, Long courseId) {
+        throw new EnrollmentConcurrencyConflictException(studentId, courseId, RETRY_LIMIT);
+    }
+
+    @Recover
+    public Enrollment recover(OptimisticLockException exception, Long studentId, Long courseId) {
         throw new EnrollmentConcurrencyConflictException(studentId, courseId, RETRY_LIMIT);
     }
 
