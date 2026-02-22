@@ -17,6 +17,10 @@ import java.time.LocalDateTime;
 @Entity
 @Table(
         name = "enrollments",
+        indexes = {
+                @Index(name = "idx_enrollments_student_status", columnList = "student_id, status"),
+                @Index(name = "idx_enrollments_course_status", columnList = "course_id, status")
+        },
         uniqueConstraints = @UniqueConstraint(
                 name = "uk_enrollments_student_course_status",
                 columnNames = {"student_id", "course_id", "status"}
@@ -30,11 +34,19 @@ public class Enrollment {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "student_id", nullable = false)
+    @JoinColumn(
+            name = "student_id",
+            nullable = false,
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "course_id", nullable = false)
+    @JoinColumn(
+            name = "course_id",
+            nullable = false,
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private Course course;
 
     @Enumerated(EnumType.STRING)
