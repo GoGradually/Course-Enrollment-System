@@ -7,8 +7,6 @@ import me.gogradually.courseenrollmentsystem.domain.enrollment.EnrollmentReposit
 import me.gogradually.courseenrollmentsystem.domain.exception.CourseCapacityExceededException;
 import me.gogradually.courseenrollmentsystem.domain.exception.CourseNotFoundException;
 import me.gogradually.courseenrollmentsystem.domain.exception.DuplicateEnrollmentException;
-import me.gogradually.courseenrollmentsystem.domain.exception.StudentNotFoundException;
-import me.gogradually.courseenrollmentsystem.domain.student.StudentRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
@@ -19,7 +17,6 @@ public class EnrollmentPersistenceSupport {
 
     private final EnrollmentRepository enrollmentRepository;
     private final CourseRepository courseRepository;
-    private final StudentRepository studentRepository;
 
     public Long insertActiveOrThrow(Long studentId, Long courseId) {
         try {
@@ -29,12 +26,6 @@ public class EnrollmentPersistenceSupport {
         } catch (DataIntegrityViolationException exception) {
             if (isDuplicateEnrollmentViolation(exception)) {
                 throw new DuplicateEnrollmentException(studentId, courseId);
-            }
-            if (!studentRepository.existsById(studentId)) {
-                throw new StudentNotFoundException(studentId);
-            }
-            if (!courseRepository.existsById(courseId)) {
-                throw new CourseNotFoundException(courseId);
             }
             throw new IllegalStateException("Failed to insert active enrollment", exception);
         }

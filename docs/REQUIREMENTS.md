@@ -99,11 +99,15 @@
 
 ### 기본 전략: Atomic Update(락 범위 최소화)
 
+- `enrollments`는 FK 제약을 두지 않고 인덱스로 조회 성능을 보강
+  - `idx_enrollments_student_status(student_id, status)`
+  - `idx_enrollments_course_status(course_id, status)`
 - `POST /enrollments` 기본 경로는 먼저 활성 신청 row를 삽입해 중복 신청을 유니크 제약으로 차단
 - 다음으로 강좌 정원을 업데이트 락으로 선점
   - `UPDATE courses SET enrolled_count = enrolled_count + 1 WHERE id = :courseId AND enrolled_count < capacity`
   - 좌석 업데이트 영향 행수(`affectedRows`)가 `0`이면 만석 예외 반환
 - 좌석 선점 후 동일 트랜잭션 내에서
+  - 강좌/학생 조회 시점에 미존재면 `404` 예외 반환
   - 학생 락 획득(`PESSIMISTIC_WRITE`)(**Materialized Conflict - 한 학생이 두개의 코스 동시 신청 차단**)
   - 학점/시간표 규칙 검증
 - 중간 단계 실패 시 트랜잭션 롤백으로 신청 insert/정원 update를 함께 취소

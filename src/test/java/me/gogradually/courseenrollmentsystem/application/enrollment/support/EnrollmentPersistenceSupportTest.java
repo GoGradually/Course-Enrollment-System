@@ -6,8 +6,6 @@ import me.gogradually.courseenrollmentsystem.domain.enrollment.EnrollmentReposit
 import me.gogradually.courseenrollmentsystem.domain.exception.CourseCapacityExceededException;
 import me.gogradually.courseenrollmentsystem.domain.exception.CourseNotFoundException;
 import me.gogradually.courseenrollmentsystem.domain.exception.DuplicateEnrollmentException;
-import me.gogradually.courseenrollmentsystem.domain.exception.StudentNotFoundException;
-import me.gogradually.courseenrollmentsystem.domain.student.StudentRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,8 +18,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class EnrollmentPersistenceSupportTest {
@@ -31,9 +29,6 @@ class EnrollmentPersistenceSupportTest {
 
     @Mock
     private CourseRepository courseRepository;
-
-    @Mock
-    private StudentRepository studentRepository;
 
     @InjectMocks
     private EnrollmentPersistenceSupport enrollmentPersistenceSupport;
@@ -50,20 +45,6 @@ class EnrollmentPersistenceSupportTest {
     }
 
     @Test
-    void shouldThrowStudentNotFoundWhenIntegrityViolationOccursAndStudentMissing() {
-        when(enrollmentRepository.insertActive(1L, 2L))
-                .thenThrow(new DataIntegrityViolationException("integrity violation"));
-        when(studentRepository.existsById(1L)).thenReturn(false);
-
-        assertThrows(
-                StudentNotFoundException.class,
-                () -> enrollmentPersistenceSupport.insertActiveOrThrow(1L, 2L)
-        );
-
-        verify(courseRepository, never()).existsById(anyLong());
-    }
-
-    @Test
     void shouldThrowDuplicateEnrollmentWhenIntegrityViolationRepresentsDuplicate() {
         when(enrollmentRepository.insertActive(1L, 2L))
                 .thenThrow(new DataIntegrityViolationException("Duplicate entry for key uk_enrollments_student_course_status"));
@@ -72,29 +53,12 @@ class EnrollmentPersistenceSupportTest {
                 DuplicateEnrollmentException.class,
                 () -> enrollmentPersistenceSupport.insertActiveOrThrow(1L, 2L)
         );
-        verify(studentRepository, never()).existsById(anyLong());
-        verify(courseRepository, never()).existsById(anyLong());
     }
 
     @Test
-    void shouldThrowCourseNotFoundWhenIntegrityViolationOccursAndCourseMissing() {
-        when(enrollmentRepository.insertActive(1L, 2L))
-                .thenThrow(new DataIntegrityViolationException("integrity violation"));
-        when(studentRepository.existsById(1L)).thenReturn(true);
-        when(courseRepository.existsById(2L)).thenReturn(false);
-
-        assertThrows(
-                CourseNotFoundException.class,
-                () -> enrollmentPersistenceSupport.insertActiveOrThrow(1L, 2L)
-        );
-    }
-
-    @Test
-    void shouldThrowIllegalStateWhenIntegrityViolationOccursWithExistingReferences() {
+    void shouldThrowIllegalStateWhenIntegrityViolationOccursAndIsNotDuplicate() {
         DataIntegrityViolationException integrityViolation = new DataIntegrityViolationException("integrity violation");
         when(enrollmentRepository.insertActive(1L, 2L)).thenThrow(integrityViolation);
-        when(studentRepository.existsById(1L)).thenReturn(true);
-        when(courseRepository.existsById(2L)).thenReturn(true);
 
         IllegalStateException exception = assertThrows(
                 IllegalStateException.class,

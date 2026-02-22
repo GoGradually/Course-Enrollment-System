@@ -8,7 +8,10 @@ import me.gogradually.courseenrollmentsystem.domain.course.TimeSlot;
 import me.gogradually.courseenrollmentsystem.domain.department.Department;
 import me.gogradually.courseenrollmentsystem.domain.enrollment.Enrollment;
 import me.gogradually.courseenrollmentsystem.domain.enrollment.EnrollmentRepository;
+import me.gogradually.courseenrollmentsystem.domain.enrollment.EnrollmentStatus;
+import me.gogradually.courseenrollmentsystem.domain.exception.CourseNotFoundException;
 import me.gogradually.courseenrollmentsystem.domain.exception.ScheduleConflictException;
+import me.gogradually.courseenrollmentsystem.domain.exception.StudentNotFoundException;
 import me.gogradually.courseenrollmentsystem.domain.professor.Professor;
 import me.gogradually.courseenrollmentsystem.domain.student.Student;
 import org.junit.jupiter.api.Test;
@@ -23,9 +26,7 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -45,6 +46,73 @@ class EnrollmentApplicationServiceIntegrationTest {
 
     @Autowired
     private PlatformTransactionManager transactionManager;
+
+    @Test
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    void shouldThrowStudentNotFoundWhenAtomicEnrollmentRequestedWithUnknownStudent() {
+        TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
+        StudentMissingFixture fixture = transactionTemplate.execute(status -> {
+            Department department = new Department("기계공학과");
+            entityManager.persist(department);
+
+            Professor professor = new Professor("정교수", department);
+            entityManager.persist(professor);
+
+            Course course = new Course(
+                    "ME101",
+                    "열역학",
+                    3,
+                    20,
+                    0,
+                    new TimeSlot(DayOfWeek.WEDNESDAY, LocalTime.of(9, 0), LocalTime.of(10, 30)),
+                    department,
+                    professor
+            );
+            entityManager.persist(course);
+            entityManager.flush();
+            entityManager.clear();
+            return new StudentMissingFixture(course.getId());
+        });
+
+        assertNotNull(fixture);
+
+        assertThrows(
+                StudentNotFoundException.class,
+                () -> enrollmentApplicationService.enroll(999_999L, fixture.courseId())
+        );
+
+        transactionTemplate.executeWithoutResult(status -> {
+            assertEquals(0, countActiveEnrollmentByCourseId(fixture.courseId()));
+            assertEquals(0, courseRepository.findById(fixture.courseId()).orElseThrow().getEnrolledCount());
+        });
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    void shouldThrowCourseNotFoundWhenAtomicEnrollmentRequestedWithUnknownCourse() {
+        TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
+        CourseMissingFixture fixture = transactionTemplate.execute(status -> {
+            Department department = new Department("산업공학과");
+            entityManager.persist(department);
+
+            Student student = new Student("20261236", "최학생", department);
+            entityManager.persist(student);
+            entityManager.flush();
+            entityManager.clear();
+            return new CourseMissingFixture(student.getId());
+        });
+
+        assertNotNull(fixture);
+
+        assertThrows(
+                CourseNotFoundException.class,
+                () -> enrollmentApplicationService.enroll(fixture.studentId(), 999_999L)
+        );
+
+        transactionTemplate.executeWithoutResult(status ->
+                assertEquals(0, enrollmentRepository.findActiveByStudentId(fixture.studentId()).size())
+        );
+    }
 
     @Test
     void shouldAllowReEnrollmentAfterCancellation() {
@@ -164,6 +232,27 @@ class EnrollmentApplicationServiceIntegrationTest {
         );
     }
 
+    private long countActiveEnrollmentByCourseId(Long courseId) {
+        return entityManager.createQuery(
+                        """
+                                select count(e)
+                                from Enrollment e
+                                where e.course.id = :courseId
+                                  and e.status = :status
+                                """,
+                        Long.class
+                )
+                .setParameter("courseId", courseId)
+                .setParameter("status", EnrollmentStatus.ACTIVE)
+                .getSingleResult();
+    }
+
     private record Fixture(Long studentId, Long existingCourseId, Long requestedCourseId) {
+    }
+
+    private record StudentMissingFixture(Long courseId) {
+    }
+
+    private record CourseMissingFixture(Long studentId) {
     }
 }
