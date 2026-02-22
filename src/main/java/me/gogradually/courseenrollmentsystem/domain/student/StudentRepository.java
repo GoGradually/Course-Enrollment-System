@@ -12,6 +12,8 @@ public interface StudentRepository {
 
     Optional<Student> findByIdForUpdate(Long studentId);
 
+    boolean existsById(Long studentId);
+
     List<Student> findAll(int offset, int limit);
 
     Student save(Student student);

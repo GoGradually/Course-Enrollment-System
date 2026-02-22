@@ -12,6 +12,8 @@ public interface CourseRepository {
 
     Optional<Course> findByIdForUpdate(Long courseId);
 
+    boolean existsById(Long courseId);
+
     List<Course> findAll(Long departmentId, int offset, int limit);
 
     int incrementEnrolledCountIfAvailable(Long courseId);
