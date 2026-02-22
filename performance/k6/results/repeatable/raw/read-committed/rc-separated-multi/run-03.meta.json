@@ -1,0 +1,12 @@
+{
+  "profile": "read-committed",
+  "scenario": "rc-separated-multi",
+  "runId": "03",
+  "startedAt": "2026-02-22T21:02:45Z",
+  "endedAt": "2026-02-22T21:03:08Z",
+  "durationSeconds": 23,
+  "baseUrl": "http://localhost:8080",
+  "summaryPath": "performance/k6/results/repeatable/raw/read-committed/rc-separated-multi/run-03.summary.json",
+  "serverLog": "performance/k6/results/repeatable/logs/read-committed/rc-separated-multi/run-03.server.log",
+  "pass": true
+}

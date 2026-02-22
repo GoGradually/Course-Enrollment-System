@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2026-02-22T21:04:47Z",
+  "left": {
+    "label": "read-committed-atomic",
+    "file": "performance/k6/results/repeatable/aggregated/read-committed/rc-atomic-multi.aggregate.json",
+    "profile": "read-committed",
+    "scenario": "rc-atomic-multi",
+    "runs": 7,
+    "p95MedianMs": 612.6007218000001,
+    "p95IqrMs": 76.49904670000001,
+    "throughputMedianRps": 864.7837923709561,
+    "throughputIqrRps": 47.52319942047461,
+    "stable": true
+  },
+  "right": {
+    "label": "read-committed-separated",
+    "file": "performance/k6/results/repeatable/aggregated/read-committed/rc-separated-multi.aggregate.json",
+    "profile": "read-committed",
+    "scenario": "rc-separated-multi",
+    "runs": 7,
+    "p95MedianMs": 718.2458488,
+    "p95IqrMs": 85.28475370000024,
+    "throughputMedianRps": 842.5626745486757,
+    "throughputIqrRps": 50.85601627801918,
+    "stable": false
+  },
+  "delta": {
+    "p95DeltaMs": 105.64512699999989,
+    "p95DeltaPct": 17.245348110198698,
+    "throughputDeltaRps": -22.221117822280462,
+    "throughputDeltaPct": -2.569557618715006
+  }
+}

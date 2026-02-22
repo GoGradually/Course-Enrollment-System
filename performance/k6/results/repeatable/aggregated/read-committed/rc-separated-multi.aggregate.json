@@ -1,0 +1,164 @@
+{
+  "generatedAt": "2026-02-22T21:04:47Z",
+  "profile": "read-committed",
+  "scenario": "rc-separated-multi",
+  "input": {
+    "dir": "performance/k6/results/repeatable/raw/read-committed/rc-separated-multi",
+    "files": [
+      "performance/k6/results/repeatable/raw/read-committed/rc-separated-multi/run-01.summary.json",
+      "performance/k6/results/repeatable/raw/read-committed/rc-separated-multi/run-02.summary.json",
+      "performance/k6/results/repeatable/raw/read-committed/rc-separated-multi/run-03.summary.json",
+      "performance/k6/results/repeatable/raw/read-committed/rc-separated-multi/run-04.summary.json",
+      "performance/k6/results/repeatable/raw/read-committed/rc-separated-multi/run-05.summary.json",
+      "performance/k6/results/repeatable/raw/read-committed/rc-separated-multi/run-06.summary.json",
+      "performance/k6/results/repeatable/raw/read-committed/rc-separated-multi/run-07.summary.json"
+    ],
+    "runCount": 7
+  },
+  "consistency": {
+    "domainAssertionsPassAll": true,
+    "attemptsMatchedAll": true,
+    "attempts": [
+      6177,
+      6177,
+      6177,
+      6177,
+      6177,
+      6177,
+      6177
+    ],
+    "plannedAttempts": [
+      6177,
+      6177,
+      6177,
+      6177,
+      6177,
+      6177,
+      6177
+    ],
+    "expectedAttempts": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "metrics": {
+    "latencyMsAvg": {
+      "count": 7,
+      "values": [
+        390.50270540003316,
+        320.3936171550921,
+        311.20777112368404,
+        399.16223421677165,
+        384.23949796049874,
+        374.0955563389979,
+        473.88729397782083
+      ],
+      "min": 311.20777112368404,
+      "max": 473.88729397782083,
+      "mean": 379.06981088184256,
+      "median": 384.23949796049874,
+      "q1": 347.244586747045,
+      "q3": 394.8324698084024,
+      "iqr": 47.58788306135739,
+      "stddev": 54.19777467192953,
+      "cv": 0.1429757082101776
+    },
+    "latencyMsP95": {
+      "count": 7,
+      "values": [
+        718.2458488,
+        620.8620142,
+        643.9092499999998,
+        730.2429432,
+        795.3237468000001,
+        711.0879325999999,
+        1007.8720224
+      ],
+      "min": 620.8620142,
+      "max": 1007.8720224,
+      "mean": 746.7919654285714,
+      "median": 718.2458488,
+      "q1": 677.4985912999998,
+      "q3": 762.783345,
+      "iqr": 85.28475370000024,
+      "stddev": 128.66290877922876,
+      "cv": 0.1722874839787427
+    },
+    "latencyMsP99": {
+      "count": 7,
+      "values": [
+        904.4540798399998,
+        805.91697376,
+        870.5462804399996,
+        912.1570063199999,
+        1013.09698684,
+        902.1984059199999,
+        1376.11600504
+      ],
+      "min": 805.91697376,
+      "max": 1376.11600504,
+      "mean": 969.2122483085711,
+      "median": 904.4540798399998,
+      "q1": 886.3723431799997,
+      "q3": 962.62699658,
+      "iqr": 76.25465340000028,
+      "stddev": 189.66489462422726,
+      "cv": 0.19568974180343113
+    },
+    "throughputRps": {
+      "count": 7,
+      "values": [
+        934.502344459648,
+        842.5626745486757,
+        826.6206906724437,
+        907.5561277227678,
+        781.8339730878305,
+        844.0198298782071,
+        823.2432343724929
+      ],
+      "min": 781.8339730878305,
+      "max": 934.502344459648,
+      "mean": 851.4769821060094,
+      "median": 842.5626745486757,
+      "q1": 824.9319625224683,
+      "q3": 875.7879788004875,
+      "iqr": 50.85601627801918,
+      "stddev": 52.342277057923084,
+      "cv": 0.0614723335544101
+    },
+    "successRate": {
+      "count": 7,
+      "values": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "min": 0.3333333333333333,
+      "max": 0.3333333333333333,
+      "mean": 0.3333333333333333,
+      "median": 0.3333333333333333,
+      "q1": 0.3333333333333333,
+      "q3": 0.3333333333333333,
+      "iqr": 0,
+      "stddev": 0,
+      "cv": 0
+    }
+  },
+  "stability": {
+    "cvThreshold": 0.10,
+    "p95Cv": 0.1722874839787427,
+    "throughputCv": 0.0614723335544101,
+    "p95Stable": false,
+    "throughputStable": true,
+    "pass": false
+  }
+}
