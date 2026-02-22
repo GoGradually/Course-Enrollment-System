@@ -1,5 +1,5 @@
 import http from 'k6/http';
-import { sleep } from 'k6';
+import {sleep} from 'k6';
 import {
   allowedCodeRate,
   enrollAttempts,
@@ -10,6 +10,11 @@ import {
   status409,
   status422,
   statusUnexpected,
+  statusUnexpected400,
+  statusUnexpected404,
+  statusUnexpected500,
+  statusUnexpectedByCode,
+  statusUnexpectedOther,
 } from './config.js';
 
 function pickStudentId(studentIds, loops) {
@@ -61,6 +66,16 @@ export function runEnrollmentIteration(testData, enrollPath, scenarioName, runCo
     status422.add(1);
   } else {
     statusUnexpected.add(1);
+    statusUnexpectedByCode.add(1, {status: String(status)});
+    if (status === 400) {
+      statusUnexpected400.add(1);
+    } else if (status === 404) {
+      statusUnexpected404.add(1);
+    } else if (status === 500) {
+      statusUnexpected500.add(1);
+    } else {
+      statusUnexpectedOther.add(1, {status: String(status)});
+    }
   }
 
   allowedCodeRate.add(status === 201 || status === 409 || status === 422);

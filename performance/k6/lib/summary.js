@@ -52,6 +52,10 @@ export function createSummary(data, scenarioName, runConfig) {
   const count409 = metricCount(data, 'enroll_status_409');
   const count422 = metricCount(data, 'enroll_status_422');
   const countUnexpected = metricCount(data, 'enroll_status_unexpected');
+  const countUnexpected400 = metricCount(data, 'enroll_status_unexpected_400');
+  const countUnexpected404 = metricCount(data, 'enroll_status_unexpected_404');
+  const countUnexpected500 = metricCount(data, 'enroll_status_unexpected_500');
+  const countUnexpectedOther = metricCount(data, 'enroll_status_unexpected_other');
   const attempts = metricCount(data, 'enroll_attempts');
   const total = count201 + count409 + count422 + countUnexpected;
 
@@ -78,6 +82,20 @@ export function createSummary(data, scenarioName, runConfig) {
   const capacityNotExceeded = capacityFromStatus && capacityFromFinalState;
   const pass = allowedCodesOnly && noUnexpectedStatus && requestCountMatched && capacityNotExceeded;
 
+  const unexpectedByStatus = {};
+  if (countUnexpected400 > 0) {
+    unexpectedByStatus['400'] = countUnexpected400;
+  }
+  if (countUnexpected404 > 0) {
+    unexpectedByStatus['404'] = countUnexpected404;
+  }
+  if (countUnexpected500 > 0) {
+    unexpectedByStatus['500'] = countUnexpected500;
+  }
+  if (countUnexpectedOther > 0) {
+    unexpectedByStatus.other = countUnexpectedOther;
+  }
+
   const summary = {
     scenario: scenarioName,
     course: {
@@ -93,6 +111,7 @@ export function createSummary(data, scenarioName, runConfig) {
       status409: count409,
       status422: count422,
       unexpected: countUnexpected,
+      unexpectedByStatus,
     },
     ratios: {
       successRate: formatRate(count201, total),
@@ -120,6 +139,7 @@ export function createSummary(data, scenarioName, runConfig) {
   const consoleLines = [
     `scenario=${scenarioName}`,
     `total=${summary.totals.total} attempts=${attempts}/${expectedAttempts} 201=${count201} 409=${count409} 422=${count422} unexpected=${countUnexpected}`,
+    `unexpectedByStatus=${JSON.stringify(unexpectedByStatus)}`,
     `successRate=${summary.ratios.successRate.toFixed(4)} conflictRate=${summary.ratios.conflictRate.toFixed(4)} ruleViolationRate=${summary.ratios.ruleViolationRate.toFixed(4)}`,
     `latency(ms): avg=${summary.latencyMs.avg.toFixed(2)} med=${summary.latencyMs.med.toFixed(2)} p95=${summary.latencyMs.p95.toFixed(2)} p99=${summary.latencyMs.p99.toFixed(2)} max=${summary.latencyMs.max.toFixed(2)}`,
     `throughput(req/s)=${summary.throughputRps.toFixed(2)}`,

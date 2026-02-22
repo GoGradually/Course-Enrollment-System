@@ -123,7 +123,7 @@ Base URL: `http://localhost:8080`
 - 실패:
     - `400 Bad Request` (필수 필드 누락/요청 형식 오류)
     - `404 Not Found` (학생/강좌 없음)
-    - `409 Conflict` (중복 신청/동시성 충돌)
+  - `409 Conflict` (중복 신청/동시성·락 충돌, 재시도 소진 포함)
     - `422 Unprocessable Entity` (학점 초과/시간표 충돌/정원 초과)
 
 ### POST `/enrollments/pessimistic`
