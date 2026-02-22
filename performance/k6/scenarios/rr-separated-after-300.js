@@ -5,6 +5,7 @@ import {runEnrollmentIteration} from '../lib/enroll-runner.js';
 import {createSummary} from '../lib/summary.js';
 
 const SCENARIO_NAME = 'rr-separated-after-300';
+// separated = transaction-split strategy (/enrollments/separated)
 const ENROLL_PATH = '/enrollments/separated';
 const RUN_CONFIG = resolveRunConfig();
 

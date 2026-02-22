@@ -1,10 +1,11 @@
-import { createOptions, resolveRunConfig } from '../lib/config.js';
-import { assertCapacityNotExceeded } from '../lib/domain-assertion.js';
-import { setupData } from '../lib/data-setup.js';
-import { runEnrollmentIteration } from '../lib/enroll-runner.js';
-import { createSummary } from '../lib/summary.js';
+import {createOptions, resolveRunConfig} from '../lib/config.js';
+import {assertCapacityNotExceeded} from '../lib/domain-assertion.js';
+import {setupData} from '../lib/data-setup.js';
+import {runEnrollmentIteration} from '../lib/enroll-runner.js';
+import {createSummary} from '../lib/summary.js';
 
 const SCENARIO_NAME = 'rr-atomic';
+// atomic = SQL direct strategy (/enrollments/atomic)
 const ENROLL_PATH = '/enrollments/atomic';
 const RUN_CONFIG = resolveRunConfig();
 

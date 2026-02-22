@@ -5,6 +5,7 @@ import {runEnrollmentIteration} from '../lib/enroll-runner.js';
 import {createSummary} from '../lib/summary.js';
 
 const SCENARIO_NAME = 'rc-atomic-after-300';
+// atomic = SQL direct strategy (/enrollments/atomic)
 const ENROLL_PATH = '/enrollments/atomic';
 const RUN_CONFIG = resolveRunConfig();
 
