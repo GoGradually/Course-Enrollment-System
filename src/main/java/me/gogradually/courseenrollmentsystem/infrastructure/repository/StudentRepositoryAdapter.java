@@ -33,6 +33,11 @@ public class StudentRepositoryAdapter implements StudentRepository {
     }
 
     @Override
+    public boolean existsById(Long studentId) {
+        return studentJpaRepository.existsById(studentId);
+    }
+
+    @Override
     public List<Student> findAll(int offset, int limit) {
         return entityManager.createQuery(
                         "select s from Student s join fetch s.department order by s.id",

@@ -34,6 +34,11 @@ public class CourseRepositoryAdapter implements CourseRepository {
     }
 
     @Override
+    public boolean existsById(Long courseId) {
+        return courseJpaRepository.existsById(courseId);
+    }
+
+    @Override
     public List<Course> findAll(Long departmentId, int offset, int limit) {
         StringBuilder queryBuilder = new StringBuilder(
                 "select c from Course c join fetch c.department d join fetch c.professor p"
