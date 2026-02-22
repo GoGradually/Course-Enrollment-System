@@ -4,7 +4,6 @@ import jakarta.persistence.OptimisticLockException;
 import me.gogradually.courseenrollmentsystem.application.enrollment.support.EnrollmentCancellationProcessor;
 import me.gogradually.courseenrollmentsystem.application.enrollment.tx.OptimisticEnrollmentTxExecutor;
 import me.gogradually.courseenrollmentsystem.domain.enrollment.Enrollment;
-import me.gogradually.courseenrollmentsystem.domain.exception.EnrollmentConcurrencyConflictException;
 import me.gogradually.courseenrollmentsystem.support.DomainFixtureFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,8 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.time.DayOfWeek;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @SpringJUnitConfig(OptimisticEnrollmentStrategyRetryTest.TestConfig.class)
@@ -52,12 +52,10 @@ class OptimisticEnrollmentStrategyRetryTest {
         when(optimisticEnrollmentTxExecutor.executeOnce(1L, 2L))
                 .thenThrow(new OptimisticLockException("stale version"));
 
-        EnrollmentConcurrencyConflictException exception = assertThrows(
-                EnrollmentConcurrencyConflictException.class,
+        assertThrows(
+                OptimisticLockException.class,
                 () -> optimisticEnrollmentStrategy.enroll(1L, 2L)
         );
-
-        assertTrue(exception.getMessage().contains("retryCount=3"));
         verify(optimisticEnrollmentTxExecutor, times(3)).executeOnce(1L, 2L);
     }
 

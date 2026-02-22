@@ -26,6 +26,9 @@ import java.time.OffsetDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final String CONCURRENCY_CONFLICT_CODE = "ENROLLMENT_CONCURRENCY_CONFLICT";
+    private static final String CONCURRENCY_CONFLICT_MESSAGE = "Enrollment request failed due to concurrency conflict";
+
     @ExceptionHandler({
             MethodArgumentNotValidException.class,
             BindException.class,
@@ -49,8 +52,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({
             DuplicateEnrollmentException.class,
-            EnrollmentCancellationNotAllowedException.class,
-            EnrollmentConcurrencyConflictException.class
+            EnrollmentCancellationNotAllowedException.class
     })
     public ResponseEntity<ErrorResponse> handleConflict(DomainException exception) {
         return buildResponse(HttpStatus.CONFLICT, toCode(exception), exception.getMessage());
@@ -67,11 +69,7 @@ public class GlobalExceptionHandler {
             ExhaustedRetryException.class
     })
     public ResponseEntity<ErrorResponse> handleConcurrencyConflict(Exception exception) {
-        return buildResponse(
-                HttpStatus.CONFLICT,
-                "ENROLLMENT_CONCURRENCY_CONFLICT",
-                "Enrollment request failed due to concurrency conflict"
-        );
+        return concurrencyConflictResponse();
     }
 
     @ExceptionHandler({
@@ -90,11 +88,42 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpected(Exception exception) {
+        if (containsConcurrencyConflict(exception)) {
+            return concurrencyConflictResponse();
+        }
         return buildResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "INTERNAL_SERVER_ERROR",
                 "Unexpected server error"
         );
+    }
+
+    private ResponseEntity<ErrorResponse> concurrencyConflictResponse() {
+        return buildResponse(
+                HttpStatus.CONFLICT,
+                CONCURRENCY_CONFLICT_CODE,
+                CONCURRENCY_CONFLICT_MESSAGE
+        );
+    }
+
+    private boolean containsConcurrencyConflict(Throwable throwable) {
+        int depth = 0;
+        Throwable current = throwable;
+        while (current != null && depth < 20) {
+            if (current instanceof CannotAcquireLockException
+                    || current instanceof PessimisticLockingFailureException
+                    || current instanceof OptimisticLockingFailureException
+                    || current instanceof CannotSerializeTransactionException
+                    || current instanceof LockTimeoutException
+                    || current instanceof OptimisticLockException
+                    || current instanceof PessimisticLockException
+                    || current instanceof ExhaustedRetryException) {
+                return true;
+            }
+            current = current.getCause();
+            depth++;
+        }
+        return false;
     }
 
     private ResponseEntity<ErrorResponse> buildResponse(HttpStatus status, String code, String message) {

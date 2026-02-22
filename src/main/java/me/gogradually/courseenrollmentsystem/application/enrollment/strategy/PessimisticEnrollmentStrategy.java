@@ -10,7 +10,6 @@ import me.gogradually.courseenrollmentsystem.domain.course.CourseRepository;
 import me.gogradually.courseenrollmentsystem.domain.enrollment.Enrollment;
 import me.gogradually.courseenrollmentsystem.domain.enrollment.EnrollmentRepository;
 import me.gogradually.courseenrollmentsystem.domain.exception.CourseNotFoundException;
-import me.gogradually.courseenrollmentsystem.domain.exception.EnrollmentConcurrencyConflictException;
 import me.gogradually.courseenrollmentsystem.domain.exception.StudentNotFoundException;
 import me.gogradually.courseenrollmentsystem.domain.student.Student;
 import me.gogradually.courseenrollmentsystem.domain.student.StudentRepository;
@@ -18,7 +17,6 @@ import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.dao.CannotSerializeTransactionException;
 import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,38 +66,9 @@ public class PessimisticEnrollmentStrategy implements EnrollmentStrategy {
         return enrollmentRepository.save(enrollment);
     }
 
-    @Recover
-    public Enrollment recover(CannotAcquireLockException exception, Long studentId, Long courseId) {
-        throw conflict(studentId, courseId);
-    }
-
-    @Recover
-    public Enrollment recover(PessimisticLockingFailureException exception, Long studentId, Long courseId) {
-        throw conflict(studentId, courseId);
-    }
-
-    @Recover
-    public Enrollment recover(CannotSerializeTransactionException exception, Long studentId, Long courseId) {
-        throw conflict(studentId, courseId);
-    }
-
-    @Recover
-    public Enrollment recover(PessimisticLockException exception, Long studentId, Long courseId) {
-        throw conflict(studentId, courseId);
-    }
-
-    @Recover
-    public Enrollment recover(LockTimeoutException exception, Long studentId, Long courseId) {
-        throw conflict(studentId, courseId);
-    }
-
     @Override
     @Transactional
     public void cancel(Long enrollmentId) {
         cancellationProcessor.cancel(enrollmentId);
-    }
-
-    private EnrollmentConcurrencyConflictException conflict(Long studentId, Long courseId) {
-        return new EnrollmentConcurrencyConflictException(studentId, courseId, RETRY_LIMIT);
     }
 }

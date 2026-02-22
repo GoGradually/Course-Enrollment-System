@@ -8,7 +8,6 @@ import me.gogradually.courseenrollmentsystem.domain.course.Course;
 import me.gogradually.courseenrollmentsystem.domain.course.CourseRepository;
 import me.gogradually.courseenrollmentsystem.domain.enrollment.Enrollment;
 import me.gogradually.courseenrollmentsystem.domain.enrollment.EnrollmentRepository;
-import me.gogradually.courseenrollmentsystem.domain.exception.EnrollmentConcurrencyConflictException;
 import me.gogradually.courseenrollmentsystem.domain.student.Student;
 import me.gogradually.courseenrollmentsystem.domain.student.StudentRepository;
 import me.gogradually.courseenrollmentsystem.support.DomainFixtureFactory;
@@ -103,14 +102,9 @@ class PessimisticEnrollmentStrategyRetryTest {
         when(courseRepository.findByIdForUpdate(2L))
                 .thenThrow(new PessimisticLockingFailureException("pessimistic lock failure"));
 
-        EnrollmentConcurrencyConflictException exception = assertThrows(
-                EnrollmentConcurrencyConflictException.class,
+        assertThrows(
+                PessimisticLockingFailureException.class,
                 () -> pessimisticEnrollmentStrategy.enroll(1L, 2L)
-        );
-
-        assertEquals(
-                "Enrollment concurrency conflict. studentId=1, courseId=2, retryCount=3",
-                exception.getMessage()
         );
         verify(courseRepository, times(3)).findByIdForUpdate(2L);
         verify(studentRepository, times(0)).findByIdForUpdate(1L);
@@ -121,14 +115,9 @@ class PessimisticEnrollmentStrategyRetryTest {
         when(courseRepository.findByIdForUpdate(2L))
                 .thenThrow(new PessimisticLockException("pessimistic lock"));
 
-        EnrollmentConcurrencyConflictException exception = assertThrows(
-                EnrollmentConcurrencyConflictException.class,
+        assertThrows(
+                PessimisticLockException.class,
                 () -> pessimisticEnrollmentStrategy.enroll(1L, 2L)
-        );
-
-        assertEquals(
-                "Enrollment concurrency conflict. studentId=1, courseId=2, retryCount=3",
-                exception.getMessage()
         );
         verify(courseRepository, times(3)).findByIdForUpdate(2L);
         verify(studentRepository, times(0)).findByIdForUpdate(1L);

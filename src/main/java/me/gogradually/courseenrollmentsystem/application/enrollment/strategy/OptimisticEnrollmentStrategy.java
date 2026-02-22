@@ -5,10 +5,8 @@ import lombok.RequiredArgsConstructor;
 import me.gogradually.courseenrollmentsystem.application.enrollment.support.EnrollmentCancellationProcessor;
 import me.gogradually.courseenrollmentsystem.application.enrollment.tx.OptimisticEnrollmentTxExecutor;
 import me.gogradually.courseenrollmentsystem.domain.enrollment.Enrollment;
-import me.gogradually.courseenrollmentsystem.domain.exception.EnrollmentConcurrencyConflictException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,20 +33,6 @@ public class OptimisticEnrollmentStrategy implements EnrollmentStrategy {
     )
     public Enrollment enroll(Long studentId, Long courseId) {
         return optimisticEnrollmentTxExecutor.executeOnce(studentId, courseId);
-    }
-
-    @Recover
-    public Enrollment recover(OptimisticLockingFailureException exception, Long studentId, Long courseId) {
-        throw conflict(studentId, courseId);
-    }
-
-    @Recover
-    public Enrollment recover(OptimisticLockException exception, Long studentId, Long courseId) {
-        throw conflict(studentId, courseId);
-    }
-
-    private EnrollmentConcurrencyConflictException conflict(Long studentId, Long courseId) {
-        return new EnrollmentConcurrencyConflictException(studentId, courseId, RETRY_LIMIT);
     }
 
     @Override

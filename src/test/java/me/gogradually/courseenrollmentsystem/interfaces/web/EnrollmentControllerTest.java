@@ -201,6 +201,27 @@ class EnrollmentControllerTest {
     }
 
     @Test
+    void shouldReturnConflictWhenConcurrencyExceptionIsWrapped() throws Exception {
+        given(enrollmentCommandService.enrollWithPessimisticLock(1L, 101L))
+                .willThrow(new RuntimeException("wrapped", new CannotAcquireLockException("lock timeout")));
+
+        mockMvc.perform(
+                        post("/enrollments/pessimistic")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {
+                                          "studentId": 1,
+                                          "courseId": 101
+                                        }
+                                        """)
+                )
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("ENROLLMENT_CONCURRENCY_CONFLICT"))
+                .andExpect(jsonPath("$.message").value("Enrollment request failed due to concurrency conflict"))
+                .andExpect(jsonPath("$.timestamp").exists());
+    }
+
+    @Test
     void shouldReturnBadRequestWhenRequestFieldMissing() throws Exception {
         mockMvc.perform(
                         post("/enrollments")
