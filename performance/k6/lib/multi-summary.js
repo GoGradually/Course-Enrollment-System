@@ -142,7 +142,7 @@ export function createMultiSummary(data, scenarioName, runConfig) {
         },
     };
 
-    const summaryPath = __ENV.SUMMARY_PATH || `performance/k6/results/${scenarioName}.summary.json`;
+    const summaryPath = __ENV.SUMMARY_PATH || `performance/k6/results/multi/${scenarioName}.summary.json`;
     const consoleLines = [
         `scenario=${scenarioName}`,
         `workload: courses=${summary.workload.courseCount} multiplier=${summary.workload.competitionMultiplier} plannedAttempts=${summary.workload.plannedAttempts} maxConfiguredAttempts=${summary.workload.maxConfiguredAttempts} totalCapacity=${summary.workload.totalCapacity} totalEnrolledFinal=${summary.workload.totalEnrolledFinal}`,

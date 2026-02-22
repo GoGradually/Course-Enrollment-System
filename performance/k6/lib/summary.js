@@ -135,7 +135,7 @@ export function createSummary(data, scenarioName, runConfig) {
     },
   };
 
-  const summaryPath = __ENV.SUMMARY_PATH || `performance/k6/results/${scenarioName}.summary.json`;
+    const summaryPath = __ENV.SUMMARY_PATH || `performance/k6/results/single/${scenarioName}.summary.json`;
   const consoleLines = [
     `scenario=${scenarioName}`,
     `total=${summary.totals.total} attempts=${attempts}/${expectedAttempts} 201=${count201} 409=${count409} 422=${count422} unexpected=${countUnexpected}`,
