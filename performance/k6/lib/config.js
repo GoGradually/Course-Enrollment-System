@@ -48,7 +48,7 @@ function nonNegativeIntEnv(name, fallback) {
 export function resolveRunConfig() {
   return {
     baseUrl: __ENV.BASE_URL || 'http://localhost:8080',
-    vus: intEnv('VUS', 400),
+    vus: intEnv('VUS', 1000),
     loops: intEnv('LOOPS', 1),
     rampUpSeconds: nonNegativeIntEnv('RAMP_UP_SECONDS', 5),
     maxDuration: __ENV.MAX_DURATION || '2m',

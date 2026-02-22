@@ -1,6 +1,7 @@
 import http from 'k6/http';
 
 const MAX_PAGE_SIZE = 100;
+const DEFAULT_TARGET_CAPACITY = 100;
 
 function parseJson(response, description) {
   const status = response.status;
@@ -89,16 +90,17 @@ function resolveHotCourse(courses) {
     return { id: parsedId, capacity: -1 };
   }
 
-  const minCapacity = Number.parseInt(__ENV.MIN_CAPACITY || '20', 10);
-  const candidates = courses
-    .filter((course) => course.capacity >= minCapacity && course.enrolled === 0)
-    .sort((left, right) => right.capacity - left.capacity);
-
-  if (candidates.length > 0) {
-    return candidates[0];
+  const targetCapacity = Number.parseInt(__ENV.TARGET_CAPACITY || `${DEFAULT_TARGET_CAPACITY}`, 10);
+  if (Number.isNaN(targetCapacity) || targetCapacity <= 0) {
+    throw new Error('TARGET_CAPACITY must be a positive integer');
   }
 
-  return courses[0];
+  const matched = courses.find((course) => course.capacity === targetCapacity && course.enrolled === 0);
+  if (matched) {
+    return matched;
+  }
+
+  throw new Error(`No available course found for target capacity. targetCapacity=${targetCapacity}`);
 }
 
 export function setupData(baseUrl, requiredStudents) {
