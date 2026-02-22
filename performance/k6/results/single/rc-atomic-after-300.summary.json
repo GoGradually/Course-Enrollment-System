@@ -1,0 +1,38 @@
+{
+  "scenario": "rc-atomic-after-300",
+  "course": {
+    "id": 1,
+    "capacity": 100,
+    "enrolledFinal": 100
+  },
+  "totals": {
+    "total": 1000,
+    "attempts": 1000,
+    "expectedAttempts": 1000,
+    "status201": 100,
+    "status409": 0,
+    "status422": 900,
+    "unexpected": 0,
+    "unexpectedByStatus": {}
+  },
+  "ratios": {
+    "successRate": 0.1,
+    "conflictRate": 0,
+    "ruleViolationRate": 0.9
+  },
+  "latencyMs": {
+    "avg": 6.607323805999996,
+    "med": 2.345711,
+    "max": 131.813336,
+    "p95": 35.651096349999975,
+    "p99": 92.65692966999997
+  },
+  "throughputRps": 187.0887908348138,
+  "domainAssertions": {
+    "allowedCodesOnly": true,
+    "noUnexpectedStatus": true,
+    "requestCountMatched": true,
+    "capacityNotExceeded": true,
+    "pass": true
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "scenario": "rr-atomic",
+  "course": {
+    "id": 1,
+    "capacity": 100,
+    "enrolledFinal": 100
+  },
+  "totals": {
+    "total": 1000,
+    "attempts": 1000,
+    "expectedAttempts": 1000,
+    "status201": 100,
+    "status409": 0,
+    "status422": 900,
+    "unexpected": 0,
+    "unexpectedByStatus": {}
+  },
+  "ratios": {
+    "successRate": 0.1,
+    "conflictRate": 0,
+    "ruleViolationRate": 0.9
+  },
+  "latencyMs": {
+    "avg": 8.779481597999986,
+    "med": 1.5951005,
+    "max": 157.451282,
+    "p95": 75.07864849999999,
+    "p99": 125.03022125999999
+  },
+  "throughputRps": 187.04820809534684,
+  "domainAssertions": {
+    "allowedCodesOnly": true,
+    "noUnexpectedStatus": true,
+    "requestCountMatched": true,
+    "capacityNotExceeded": true,
+    "pass": true
+  }
+}

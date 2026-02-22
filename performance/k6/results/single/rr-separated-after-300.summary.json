@@ -1,0 +1,38 @@
+{
+  "scenario": "rr-separated-after-300",
+  "course": {
+    "id": 1,
+    "capacity": 100,
+    "enrolledFinal": 100
+  },
+  "totals": {
+    "total": 1000,
+    "attempts": 1000,
+    "expectedAttempts": 1000,
+    "status201": 100,
+    "status409": 0,
+    "status422": 900,
+    "unexpected": 0,
+    "unexpectedByStatus": {}
+  },
+  "ratios": {
+    "successRate": 0.1,
+    "conflictRate": 0,
+    "ruleViolationRate": 0.9
+  },
+  "latencyMs": {
+    "avg": 5.139651086999994,
+    "med": 1.5011975,
+    "max": 169.163542,
+    "p95": 8.761477249999993,
+    "p99": 113.37724733999994
+  },
+  "throughputRps": 186.0473827104062,
+  "domainAssertions": {
+    "allowedCodesOnly": true,
+    "noUnexpectedStatus": true,
+    "requestCountMatched": true,
+    "capacityNotExceeded": true,
+    "pass": true
+  }
+}
