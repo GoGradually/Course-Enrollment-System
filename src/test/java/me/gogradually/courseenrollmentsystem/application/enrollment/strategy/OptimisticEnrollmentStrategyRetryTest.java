@@ -56,7 +56,7 @@ class OptimisticEnrollmentStrategyRetryTest {
                 OptimisticLockException.class,
                 () -> optimisticEnrollmentStrategy.enroll(1L, 2L)
         );
-        verify(optimisticEnrollmentTxExecutor, times(3)).executeOnce(1L, 2L);
+        verify(optimisticEnrollmentTxExecutor, times(5)).executeOnce(1L, 2L);
     }
 
     private Enrollment sampleEnrollment() {
