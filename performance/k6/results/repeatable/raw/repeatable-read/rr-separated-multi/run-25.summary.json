@@ -1,0 +1,40 @@
+{
+  "scenario": "rr-separated-multi",
+  "workload": {
+    "courseCount": 50,
+    "competitionMultiplier": 3,
+    "plannedAttempts": 6177,
+    "maxConfiguredAttempts": 10000,
+    "totalCapacity": 2059,
+    "totalEnrolledFinal": 2059
+  },
+  "totals": {
+    "total": 6177,
+    "attempts": 6177,
+    "status201": 2059,
+    "status409": 0,
+    "status422": 4118,
+    "unexpected": 0,
+    "unexpectedByStatus": {}
+  },
+  "ratios": {
+    "successRate": 0.3333333333333333,
+    "conflictRate": 0,
+    "ruleViolationRate": 0.6666666666666666
+  },
+  "latencyMs": {
+    "avg": 311.01718418180275,
+    "med": 305.478049,
+    "max": 1295.066203,
+    "p95": 600.8337132,
+    "p99": 789.55280804
+  },
+  "throughputRps": 876.8748567141129,
+  "domainAssertions": {
+    "allowedCodesOnly": true,
+    "noUnexpectedStatus": true,
+    "attemptsMatchedPlan": true,
+    "allCoursesWithinCapacity": true,
+    "pass": true
+  }
+}

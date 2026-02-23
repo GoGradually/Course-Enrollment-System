@@ -1,0 +1,40 @@
+{
+  "scenario": "rc-atomic-multi",
+  "workload": {
+    "courseCount": 50,
+    "competitionMultiplier": 3,
+    "plannedAttempts": 6177,
+    "maxConfiguredAttempts": 10000,
+    "totalCapacity": 2059,
+    "totalEnrolledFinal": 2059
+  },
+  "totals": {
+    "total": 6177,
+    "attempts": 6177,
+    "status201": 2059,
+    "status409": 0,
+    "status422": 4118,
+    "unexpected": 0,
+    "unexpectedByStatus": {}
+  },
+  "ratios": {
+    "successRate": 0.3333333333333333,
+    "conflictRate": 0,
+    "ruleViolationRate": 0.6666666666666666
+  },
+  "latencyMs": {
+    "avg": 310.26130131876295,
+    "med": 323.886643,
+    "max": 985.27258,
+    "p95": 580.5496348,
+    "p99": 617.7668299999951
+  },
+  "throughputRps": 877.4791243539873,
+  "domainAssertions": {
+    "allowedCodesOnly": true,
+    "noUnexpectedStatus": true,
+    "attemptsMatchedPlan": true,
+    "allCoursesWithinCapacity": true,
+    "pass": true
+  }
+}

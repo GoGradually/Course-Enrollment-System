@@ -1,0 +1,12 @@
+{
+  "profile": "repeatable-read",
+  "scenario": "rr-separated-multi",
+  "runId": "12",
+  "startedAt": "2026-02-23T04:40:19Z",
+  "endedAt": "2026-02-23T04:40:42Z",
+  "durationSeconds": 23,
+  "baseUrl": "http://localhost:8080",
+  "summaryPath": "performance/k6/results/repeatable/raw/repeatable-read/rr-separated-multi/run-12.summary.json",
+  "serverLog": "performance/k6/results/repeatable/logs/repeatable-read/rr-separated-multi/run-12.server.log",
+  "pass": true
+}

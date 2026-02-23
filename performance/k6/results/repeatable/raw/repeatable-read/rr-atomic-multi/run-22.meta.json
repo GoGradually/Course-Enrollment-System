@@ -1,0 +1,12 @@
+{
+  "profile": "repeatable-read",
+  "scenario": "rr-atomic-multi",
+  "runId": "22",
+  "startedAt": "2026-02-23T04:34:22Z",
+  "endedAt": "2026-02-23T04:34:48Z",
+  "durationSeconds": 26,
+  "baseUrl": "http://localhost:8080",
+  "summaryPath": "performance/k6/results/repeatable/raw/repeatable-read/rr-atomic-multi/run-22.summary.json",
+  "serverLog": "performance/k6/results/repeatable/logs/repeatable-read/rr-atomic-multi/run-22.server.log",
+  "pass": true
+}

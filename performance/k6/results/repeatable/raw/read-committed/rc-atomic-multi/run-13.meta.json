@@ -1,0 +1,12 @@
+{
+  "profile": "read-committed",
+  "scenario": "rc-atomic-multi",
+  "runId": "13",
+  "startedAt": "2026-02-23T04:10:47Z",
+  "endedAt": "2026-02-23T04:11:10Z",
+  "durationSeconds": 23,
+  "baseUrl": "http://localhost:8080",
+  "summaryPath": "performance/k6/results/repeatable/raw/read-committed/rc-atomic-multi/run-13.summary.json",
+  "serverLog": "performance/k6/results/repeatable/logs/read-committed/rc-atomic-multi/run-13.server.log",
+  "pass": true
+}
