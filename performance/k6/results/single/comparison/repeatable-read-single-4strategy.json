@@ -1,0 +1,147 @@
+{
+  "generatedAt": "2026-02-23T05:55:42Z",
+  "profile": "repeatable-read",
+  "sourceRoot": "performance/k6/results/single",
+  "strategies": {
+    "optimistic": {
+      "scenario": "rr-optimistic",
+      "latencyMs": {
+        "avg": 19.345914726000007,
+        "p95": 134.75283619999996,
+        "p99": 197.26399056999998
+      },
+      "throughputRps": 186.9446627573311,
+      "successRate": 0.1,
+      "pass": true,
+      "totals": {
+        "attempts": 1000,
+        "status201": 100,
+        "status409": 99,
+        "status422": 801,
+        "unexpected": 0
+      }
+    },
+    "pessimistic": {
+      "scenario": "rr-pessimistic",
+      "latencyMs": {
+        "avg": 16.661062896999983,
+        "p95": 121.6132797,
+        "p99": 125.6949733
+      },
+      "throughputRps": 186.67236750138812,
+      "successRate": 0.1,
+      "pass": true,
+      "totals": {
+        "attempts": 1000,
+        "status201": 100,
+        "status409": 900,
+        "status422": 0,
+        "unexpected": 0
+      }
+    },
+    "separated": {
+      "scenario": "rr-separated",
+      "latencyMs": {
+        "avg": 7.025443118999977,
+        "p95": 11.4418394,
+        "p99": 153.44054025999995
+      },
+      "throughputRps": 186.09996036748248,
+      "successRate": 0.1,
+      "pass": true,
+      "totals": {
+        "attempts": 1000,
+        "status201": 100,
+        "status409": 0,
+        "status422": 900,
+        "unexpected": 0
+      }
+    },
+    "atomic": {
+      "scenario": "rr-atomic",
+      "latencyMs": {
+        "avg": 8.779481597999986,
+        "p95": 75.07864849999999,
+        "p99": 125.03022125999999
+      },
+      "throughputRps": 187.04820809534684,
+      "successRate": 0.1,
+      "pass": true,
+      "totals": {
+        "attempts": 1000,
+        "status201": 100,
+        "status409": 0,
+        "status422": 900,
+        "unexpected": 0
+      }
+    }
+  },
+  "ranking": {
+    "p95Ascending": [
+      {
+        "strategy": "separated",
+        "scenario": "rr-separated",
+        "p95": 11.4418394
+      },
+      {
+        "strategy": "atomic",
+        "scenario": "rr-atomic",
+        "p95": 75.07864849999999
+      },
+      {
+        "strategy": "pessimistic",
+        "scenario": "rr-pessimistic",
+        "p95": 121.6132797
+      },
+      {
+        "strategy": "optimistic",
+        "scenario": "rr-optimistic",
+        "p95": 134.75283619999996
+      }
+    ],
+    "throughputDescending": [
+      {
+        "strategy": "atomic",
+        "scenario": "rr-atomic",
+        "throughputRps": 187.04820809534684
+      },
+      {
+        "strategy": "optimistic",
+        "scenario": "rr-optimistic",
+        "throughputRps": 186.9446627573311
+      },
+      {
+        "strategy": "pessimistic",
+        "scenario": "rr-pessimistic",
+        "throughputRps": 186.67236750138812
+      },
+      {
+        "strategy": "separated",
+        "scenario": "rr-separated",
+        "throughputRps": 186.09996036748248
+      }
+    ]
+  },
+  "consistency": {
+    "allPass": true,
+    "anyUnexpected": false,
+    "attempts": [
+      {
+        "strategy": "optimistic",
+        "attempts": 1000
+      },
+      {
+        "strategy": "pessimistic",
+        "attempts": 1000
+      },
+      {
+        "strategy": "separated",
+        "attempts": 1000
+      },
+      {
+        "strategy": "atomic",
+        "attempts": 1000
+      }
+    ]
+  }
+}

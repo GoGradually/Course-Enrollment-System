@@ -1,0 +1,147 @@
+{
+  "generatedAt": "2026-02-23T05:55:42Z",
+  "profile": "read-committed",
+  "sourceRoot": "performance/k6/results/single",
+  "strategies": {
+    "optimistic": {
+      "scenario": "rc-optimistic",
+      "latencyMs": {
+        "avg": 16.632400624000013,
+        "p95": 121.49892099999998,
+        "p99": 160.90144189
+      },
+      "throughputRps": 187.04883513503904,
+      "successRate": 0.1,
+      "pass": true,
+      "totals": {
+        "attempts": 1000,
+        "status201": 100,
+        "status409": 88,
+        "status422": 812,
+        "unexpected": 0
+      }
+    },
+    "pessimistic": {
+      "scenario": "rc-pessimistic",
+      "latencyMs": {
+        "avg": 15.907581865000008,
+        "p95": 117.3264686,
+        "p99": 122.51234296999999
+      },
+      "throughputRps": 186.5782724089511,
+      "successRate": 0.1,
+      "pass": true,
+      "totals": {
+        "attempts": 1000,
+        "status201": 100,
+        "status409": 900,
+        "status422": 0,
+        "unexpected": 0
+      }
+    },
+    "separated": {
+      "scenario": "rc-separated",
+      "latencyMs": {
+        "avg": 6.886703146,
+        "p95": 10.50512519999997,
+        "p99": 154.47631253999998
+      },
+      "throughputRps": 186.18572562196732,
+      "successRate": 0.1,
+      "pass": true,
+      "totals": {
+        "attempts": 1000,
+        "status201": 100,
+        "status409": 0,
+        "status422": 900,
+        "unexpected": 0
+      }
+    },
+    "atomic": {
+      "scenario": "rc-atomic",
+      "latencyMs": {
+        "avg": 6.324226141999993,
+        "p95": 44.551125349999886,
+        "p99": 91.69011292999998
+      },
+      "throughputRps": 187.08104954009593,
+      "successRate": 0.1,
+      "pass": true,
+      "totals": {
+        "attempts": 1000,
+        "status201": 100,
+        "status409": 0,
+        "status422": 900,
+        "unexpected": 0
+      }
+    }
+  },
+  "ranking": {
+    "p95Ascending": [
+      {
+        "strategy": "separated",
+        "scenario": "rc-separated",
+        "p95": 10.50512519999997
+      },
+      {
+        "strategy": "atomic",
+        "scenario": "rc-atomic",
+        "p95": 44.551125349999886
+      },
+      {
+        "strategy": "pessimistic",
+        "scenario": "rc-pessimistic",
+        "p95": 117.3264686
+      },
+      {
+        "strategy": "optimistic",
+        "scenario": "rc-optimistic",
+        "p95": 121.49892099999998
+      }
+    ],
+    "throughputDescending": [
+      {
+        "strategy": "atomic",
+        "scenario": "rc-atomic",
+        "throughputRps": 187.08104954009593
+      },
+      {
+        "strategy": "optimistic",
+        "scenario": "rc-optimistic",
+        "throughputRps": 187.04883513503904
+      },
+      {
+        "strategy": "pessimistic",
+        "scenario": "rc-pessimistic",
+        "throughputRps": 186.5782724089511
+      },
+      {
+        "strategy": "separated",
+        "scenario": "rc-separated",
+        "throughputRps": 186.18572562196732
+      }
+    ]
+  },
+  "consistency": {
+    "allPass": true,
+    "anyUnexpected": false,
+    "attempts": [
+      {
+        "strategy": "optimistic",
+        "attempts": 1000
+      },
+      {
+        "strategy": "pessimistic",
+        "attempts": 1000
+      },
+      {
+        "strategy": "separated",
+        "attempts": 1000
+      },
+      {
+        "strategy": "atomic",
+        "attempts": 1000
+      }
+    ]
+  }
+}
