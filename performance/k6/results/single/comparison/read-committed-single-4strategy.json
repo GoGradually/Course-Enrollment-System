@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T06:49:36Z",
+  "generatedAt": "2026-02-23T11:53:51Z",
   "profile": "read-committed",
   "sourceRoot": "performance/k6/results/single",
   "strategies": {
@@ -60,11 +60,11 @@
     "atomic": {
       "scenario": "rc-atomic",
       "latencyMs": {
-        "avg": 9.095666165000004,
-        "p95": 68.80713394999964,
-        "p99": 111.86961262
+        "avg": 6.060299403000011,
+        "p95": 7.564179249999993,
+        "p99": 93.11894688999999
       },
-      "throughputRps": 185.75277673597094,
+      "throughputRps": 186.35185540093673,
       "successRate": 0.1,
       "pass": true,
       "totals": {
@@ -79,14 +79,14 @@
   "ranking": {
     "p95Ascending": [
       {
+        "strategy": "atomic",
+        "scenario": "rc-atomic",
+        "p95": 7.564179249999993
+      },
+      {
         "strategy": "separated",
         "scenario": "rc-separated",
         "p95": 10.50512519999997
-      },
-      {
-        "strategy": "atomic",
-        "scenario": "rc-atomic",
-        "p95": 68.80713394999964
       },
       {
         "strategy": "pessimistic",
@@ -111,14 +111,14 @@
         "throughputRps": 186.5782724089511
       },
       {
+        "strategy": "atomic",
+        "scenario": "rc-atomic",
+        "throughputRps": 186.35185540093673
+      },
+      {
         "strategy": "separated",
         "scenario": "rc-separated",
         "throughputRps": 186.18572562196732
-      },
-      {
-        "strategy": "atomic",
-        "scenario": "rc-atomic",
-        "throughputRps": 185.75277673597094
       }
     ]
   },
