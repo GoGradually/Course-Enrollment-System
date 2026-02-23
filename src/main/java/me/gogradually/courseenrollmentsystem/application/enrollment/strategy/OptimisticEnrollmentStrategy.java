@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class OptimisticEnrollmentStrategy implements EnrollmentStrategy {
 
-    private static final int RETRY_LIMIT = 3;
+    private static final int RETRY_LIMIT = 5;
 
     private final OptimisticEnrollmentTxExecutor optimisticEnrollmentTxExecutor;
     private final EnrollmentCancellationProcessor cancellationProcessor;
