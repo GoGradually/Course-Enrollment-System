@@ -12,7 +12,7 @@ Usage:
   scripts/run-k6-repeatable.sh [options]
 
 Options:
-  --runs <int>                    Number of repeated runs per scenario (default: 7)
+  --runs <int>                    Number of repeated runs per scenario (default: 25)
   --profiles <csv>                Profiles: read-committed,repeatable-read (default: both)
   --scenarios <csv>               Scenario names without .js
                                   (default: rc-atomic-multi,rc-separated-multi,rr-atomic-multi,rr-separated-multi)
@@ -331,7 +331,7 @@ require_cmd curl
 require_cmd k6
 k6_bin_path="$(command -v k6)"
 
-RUNS=7
+RUNS=25
 PROFILES_CSV="read-committed,repeatable-read"
 SCENARIOS_CSV="rc-atomic-multi,rc-separated-multi,rr-atomic-multi,rr-separated-multi"
 CV_THRESHOLD="0.10"
