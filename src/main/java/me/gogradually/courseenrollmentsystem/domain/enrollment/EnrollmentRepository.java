@@ -21,4 +21,6 @@ public interface EnrollmentRepository {
     List<Enrollment> findActiveByStudentIdWithCourse(Long studentId);
 
     Optional<Enrollment> findByIdForUpdate(Long enrollmentId);
+
+    void deleteById(Long enrollmentId);
 }

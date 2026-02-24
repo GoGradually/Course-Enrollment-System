@@ -85,4 +85,9 @@ public class EnrollmentRepositoryAdapter implements EnrollmentRepository {
     public Optional<Enrollment> findByIdForUpdate(Long enrollmentId) {
         return enrollmentJpaRepository.findByIdForUpdate(enrollmentId);
     }
+
+    @Override
+    public void deleteById(Long enrollmentId) {
+        enrollmentJpaRepository.deleteById(enrollmentId);
+    }
 }
