@@ -21,13 +21,13 @@
     "ruleViolationRate": 0.9
   },
   "latencyMs": {
-    "avg": 7.500037610000002,
-    "med": 3.4897355,
-    "max": 165.442197,
-    "p95": 9.854686299999958,
-    "p99": 121.80898649999999
+    "avg": 8.270101850000007,
+    "med": 2.933328,
+    "max": 185.743322,
+    "p95": 37.852340749999826,
+    "p99": 129.60007685
   },
-  "throughputRps": 186.38834240360177,
+  "throughputRps": 186.0993438640162,
   "domainAssertions": {
     "allowedCodesOnly": true,
     "noUnexpectedStatus": true,
