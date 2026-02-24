@@ -24,14 +24,14 @@ public class EnrollmentRuleValidator {
         validateCreditAndSchedule(studentId, courseId, student, requestedCourse, activeEnrollments);
     }
 
-    public void validateAfterAtomicInsert(
+    public void validateAfterInsert(
             Long studentId,
             Long insertedEnrollmentId,
             Student student,
             Course requestedCourse
     ) {
         List<Enrollment> existingActiveEnrollments = enrollmentRepository.findActiveByStudentId(studentId).stream()
-                .filter(enrollment -> !Objects.equals(enrollment.getId(), insertedEnrollmentId))
+                .filter(enrollment -> isPriorActiveEnrollment(enrollment, insertedEnrollmentId))
                 .toList();
 
         validateCreditAndSchedule(
@@ -41,6 +41,14 @@ public class EnrollmentRuleValidator {
                 requestedCourse,
                 existingActiveEnrollments
         );
+    }
+
+    private boolean isPriorActiveEnrollment(Enrollment enrollment, Long insertedEnrollmentId) {
+        Long existingEnrollmentId = enrollment.getId();
+        if (existingEnrollmentId == null || Objects.equals(existingEnrollmentId, insertedEnrollmentId)) {
+            return false;
+        }
+        return existingEnrollmentId < insertedEnrollmentId;
     }
 
     private void validateDuplicateEnrollment(Long studentId, Long courseId) {

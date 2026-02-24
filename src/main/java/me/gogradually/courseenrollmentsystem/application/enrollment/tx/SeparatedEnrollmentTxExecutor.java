@@ -27,33 +27,34 @@ public class SeparatedEnrollmentTxExecutor {
     private final EnrollmentPersistenceSupport persistenceSupport;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void reserveSeat(Long courseId) {
+    public Long reserveSeat(Long courseId, Long studentId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new CourseNotFoundException(courseId));
 
         persistenceSupport.incrementSeatOrThrow(courseId, course);
+        Long enrollmentId = persistenceSupport.insertActiveOrThrow(studentId, courseId);
         courseRepository.clearPersistenceContext();
+        return enrollmentId;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public Enrollment finalizeEnrollment(Long studentId, Long courseId) {
+    public Enrollment finalizeEnrollment(Long studentId, Long courseId, Long enrollmentId) {
         Student student = studentRepository.findByIdForUpdate(studentId)
                 .orElseThrow(() -> new StudentNotFoundException(studentId));
 
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new CourseNotFoundException(courseId));
 
-        ruleValidator.validateForPreInsert(studentId, courseId, student, course);
-        Long enrollmentId = persistenceSupport.insertActiveOrThrow(studentId, courseId);
+        ruleValidator.validateAfterInsert(studentId, enrollmentId, student, course);
         courseRepository.clearPersistenceContext();
-
         return enrollmentRepository.findById(enrollmentId)
                 .orElseThrow(() -> new EnrollmentNotFoundException(enrollmentId));
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void releaseSeat(Long courseId) {
+    public void releaseSeat(Long courseId, Long enrollmentId) {
         courseRepository.decrementEnrolledCountIfPositive(courseId);
         courseRepository.clearPersistenceContext();
+        enrollmentRepository.deleteById(enrollmentId);
     }
 }

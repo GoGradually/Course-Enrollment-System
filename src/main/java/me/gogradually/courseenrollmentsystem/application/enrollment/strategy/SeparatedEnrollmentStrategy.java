@@ -21,14 +21,14 @@ public class SeparatedEnrollmentStrategy implements EnrollmentStrategy {
 
     @Override
     public Enrollment enroll(Long studentId, Long courseId) {
-        separatedEnrollmentTxExecutor.reserveSeat(courseId);
+        Long enrollmentId = separatedEnrollmentTxExecutor.reserveSeat(courseId, studentId);
         try {
-            return separatedEnrollmentTxExecutor.finalizeEnrollment(studentId, courseId);
+            return separatedEnrollmentTxExecutor.finalizeEnrollment(studentId, courseId, enrollmentId);
         } catch (RuntimeException exception) {
             try {
-                separatedEnrollmentTxExecutor.releaseSeat(courseId);
+                separatedEnrollmentTxExecutor.releaseSeat(courseId, enrollmentId);
             } catch (RuntimeException ignored) {
-                // Keep original exception from finalization.
+                // TODO 이벤트 발행 등으로 지연 배치 처리 필요
             }
             throw exception;
         }

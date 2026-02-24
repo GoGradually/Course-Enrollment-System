@@ -171,6 +171,67 @@ class EnrollmentApplicationServiceIntegrationTest {
 
     @Test
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    void shouldAllowSeparatedReEnrollmentAfterCancellationWhenHistoryExists() {
+        TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
+        SeparatedReEnrollmentFixture fixture = transactionTemplate.execute(status -> {
+            Department department = new Department("소프트웨어학과");
+            entityManager.persist(department);
+
+            Professor professor = new Professor("강교수", department);
+            entityManager.persist(professor);
+
+            Student student = new Student("20261237", "장학생", department);
+            entityManager.persist(student);
+
+            Course course = new Course(
+                    "SWE101",
+                    "소프트웨어공학",
+                    3,
+                    20,
+                    0,
+                    new TimeSlot(DayOfWeek.WEDNESDAY, LocalTime.of(14, 0), LocalTime.of(15, 30)),
+                    department,
+                    professor
+            );
+            entityManager.persist(course);
+            entityManager.flush();
+            entityManager.clear();
+            return new SeparatedReEnrollmentFixture(student.getId(), course.getId());
+        });
+
+        assertNotNull(fixture);
+
+        Enrollment first = enrollmentApplicationService.enrollWithSeparatedTransaction(
+                fixture.studentId(),
+                fixture.courseId()
+        );
+        enrollmentApplicationService.cancel(first.getId());
+
+        Enrollment second = enrollmentApplicationService.enrollWithSeparatedTransaction(
+                fixture.studentId(),
+                fixture.courseId()
+        );
+
+        assertNotNull(second.getId());
+        assertEquals(1, courseRepository.findById(fixture.courseId()).orElseThrow().getEnrolledCount());
+        assertEquals(
+                1,
+                enrollmentRepository.findActiveByStudentId(fixture.studentId()).stream()
+                        .filter(enrollment -> enrollment.getCourse().getId().equals(fixture.courseId()))
+                        .count()
+        );
+        assertEquals(
+                1,
+                countEnrollmentByStudentAndCourseAndStatus(
+                        fixture.studentId(),
+                        fixture.courseId(),
+                        EnrollmentStatus.CANCELED
+                )
+        );
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     void shouldReleaseReservedSeatWhenSeparatedTransactionValidationFails() {
         TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
         Fixture fixture = transactionTemplate.execute(status -> {
@@ -247,7 +308,27 @@ class EnrollmentApplicationServiceIntegrationTest {
                 .getSingleResult();
     }
 
+    private long countEnrollmentByStudentAndCourseAndStatus(Long studentId, Long courseId, EnrollmentStatus status) {
+        return entityManager.createQuery(
+                        """
+                                select count(e)
+                                from Enrollment e
+                                where e.student.id = :studentId
+                                  and e.course.id = :courseId
+                                  and e.status = :status
+                                """,
+                        Long.class
+                )
+                .setParameter("studentId", studentId)
+                .setParameter("courseId", courseId)
+                .setParameter("status", status)
+                .getSingleResult();
+    }
+
     private record Fixture(Long studentId, Long existingCourseId, Long requestedCourseId) {
+    }
+
+    private record SeparatedReEnrollmentFixture(Long studentId, Long courseId) {
     }
 
     private record StudentMissingFixture(Long courseId) {
