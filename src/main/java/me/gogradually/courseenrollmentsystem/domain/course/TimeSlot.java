@@ -4,11 +4,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import java.time.DayOfWeek;
-import java.time.LocalTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 
 /**
  * Course schedule time slot value object.
@@ -29,7 +30,7 @@ public class TimeSlot {
     private LocalTime endTime;
 
     public TimeSlot(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) {
-        if (startTime == null || endTime == null || !startTime.isBefore(endTime)) {
+        if (dayOfWeek == null || startTime == null || endTime == null || !startTime.isBefore(endTime)) {
             throw new IllegalArgumentException("Invalid timeslot. startTime must be before endTime");
         }
         this.dayOfWeek = dayOfWeek;
@@ -38,6 +39,9 @@ public class TimeSlot {
     }
 
     public boolean overlaps(TimeSlot other) {
+        if (other == null) {
+            throw new IllegalArgumentException("timeslot must not be null");
+        }
         if (dayOfWeek != other.dayOfWeek) {
             return false;
         }

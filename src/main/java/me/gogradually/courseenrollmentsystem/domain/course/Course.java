@@ -81,7 +81,14 @@ public class Course {
     }
 
     public boolean hasScheduleConflictWith(Course other) {
-        return this.timeSlot.overlaps(other.timeSlot);
+        if (other == null) {
+            throw new IllegalArgumentException("other course must not be null");
+        }
+        TimeSlot otherTimeSlot = other.getTimeSlot();
+        if (timeSlot == null || otherTimeSlot == null) {
+            throw new IllegalArgumentException("course timeslot must not be null");
+        }
+        return timeSlot.overlaps(otherTimeSlot);
     }
 
     public void increaseEnrollment() {
