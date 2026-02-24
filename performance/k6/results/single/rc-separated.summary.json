@@ -12,7 +12,8 @@
     "status201": 100,
     "status409": 0,
     "status422": 900,
-    "unexpected": 0
+    "unexpected": 0,
+    "unexpectedByStatus": {}
   },
   "ratios": {
     "successRate": 0.1,
@@ -20,13 +21,13 @@
     "ruleViolationRate": 0.9
   },
   "latencyMs": {
-    "avg": 6.886703146,
-    "med": 1.769014,
-    "max": 193.777747,
-    "p95": 10.50512519999997,
-    "p99": 154.47631253999998
+    "avg": 4.482862337000005,
+    "med": 1.757754,
+    "max": 139.606135,
+    "p95": 7.276566849999993,
+    "p99": 97.79918064999995
   },
-  "throughputRps": 186.18572562196732,
+  "throughputRps": 186.10173325763662,
   "domainAssertions": {
     "allowedCodesOnly": true,
     "noUnexpectedStatus": true,
