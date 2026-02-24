@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-02-23T12:18:03Z",
+  "generatedAt": "2026-02-24T15:20:32Z",
   "left": {
     "label": "read-committed-atomic",
     "file": "performance/k6/results/repeatable/aggregated/read-committed/rc-atomic-multi.aggregate.json",
     "profile": "read-committed",
     "scenario": "rc-atomic-multi",
     "runs": 25,
-    "p95MedianMs": 977.6037967999999,
-    "p95IqrMs": 239.75570159999984,
-    "throughputMedianRps": 818.3059757092742,
-    "throughputIqrRps": 76.30058490639556,
-    "stable": false
+    "p95MedianMs": 805.7714284,
+    "p95IqrMs": 46.573456599999986,
+    "throughputMedianRps": 855.2860819145103,
+    "throughputIqrRps": 21.248890651808097,
+    "stable": true
   },
   "right": {
     "label": "read-committed-separated",
@@ -18,16 +18,16 @@
     "profile": "read-committed",
     "scenario": "rc-separated-multi",
     "runs": 25,
-    "p95MedianMs": 623.1798118,
-    "p95IqrMs": 74.79473600000006,
-    "throughputMedianRps": 901.0594003938542,
-    "throughputIqrRps": 48.37893320457886,
+    "p95MedianMs": 538.1189879999998,
+    "p95IqrMs": 71.08258619999998,
+    "throughputMedianRps": 871.0125630228406,
+    "throughputIqrRps": 40.92089834909416,
     "stable": true
   },
   "delta": {
-    "p95DeltaMs": -354.4239849999999,
-    "p95DeltaPct": -36.254358479390056,
-    "throughputDeltaRps": 82.75342468457995,
-    "throughputDeltaPct": 10.112772867490387
+    "p95DeltaMs": -267.65244040000016,
+    "p95DeltaPct": -33.21691871496,
+    "throughputDeltaRps": 15.72648110833029,
+    "throughputDeltaPct": 1.8387392757669385
   }
 }

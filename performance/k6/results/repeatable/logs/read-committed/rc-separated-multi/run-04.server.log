@@ -14,24 +14,24 @@
 
  :: Spring Boot ::                (v3.3.5)
 
-2026-02-23T21:09:25.557+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] m.g.c.CourseEnrollmentSystemApplication  : Starting CourseEnrollmentSystemApplication using Java 21.0.10 with PID 73595 (/home/romad/projects/Course-Enrollment-System/build/classes/java/main started by romad in /home/romad/projects/Course-Enrollment-System)
-2026-02-23T21:09:25.558+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] m.g.c.CourseEnrollmentSystemApplication  : The following 1 profile is active: "read-committed"
-2026-02-23T21:09:25.944+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-02-23T21:09:25.975+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 28 ms. Found 5 JPA repository interfaces.
-2026-02-23T21:09:26.240+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2026-02-23T21:09:26.247+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2026-02-23T21:09:26.247+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
-2026-02-23T21:09:26.271+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2026-02-23T21:09:26.272+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 689 ms
-2026-02-23T21:09:26.343+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2026-02-23T21:09:26.370+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
-2026-02-23T21:09:26.384+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2026-02-23T21:09:26.520+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-02-23T21:09:26.533+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-02-23T21:09:26.606+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1224e1b6
-2026-02-23T21:09:26.606+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-02-23T21:09:27.066+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-02-23T21:09:27.080+09:00  WARN 73595 --- [Course-Enrollment-System] [           main] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "
+2026-02-25T00:11:40.956+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] m.g.c.CourseEnrollmentSystemApplication  : Starting CourseEnrollmentSystemApplication using Java 21.0.10 with PID 189801 (/home/romad/projects/Course-Enrollment-System/build/classes/java/main started by romad in /home/romad/projects/Course-Enrollment-System)
+2026-02-25T00:11:40.957+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] m.g.c.CourseEnrollmentSystemApplication  : The following 1 profile is active: "read-committed"
+2026-02-25T00:11:41.325+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-25T00:11:41.356+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 27 ms. Found 5 JPA repository interfaces.
+2026-02-25T00:11:41.603+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-25T00:11:41.611+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-25T00:11:41.611+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
+2026-02-25T00:11:41.636+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-25T00:11:41.637+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 661 ms
+2026-02-25T00:11:41.712+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-25T00:11:41.738+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-02-25T00:11:41.753+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-25T00:11:41.888+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-25T00:11:41.900+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-02-25T00:11:41.970+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1224e1b6
+2026-02-25T00:11:41.971+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-02-25T00:11:42.437+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-25T00:11:42.452+09:00  WARN 189801 --- [Course-Enrollment-System] [           main] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "
     alter table courses 
        drop 
        foreign key FKsv2mdywju86wq12x4did4xd78" via JDBC [Table 'course_enrollment.courses' doesn't exist]
@@ -90,7 +90,7 @@ Caused by: java.sql.SQLSyntaxErrorException: Table 'course_enrollment.courses' d
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.5.3.Final.jar:6.5.3.Final]
 	... 39 common frames omitted
 
-2026-02-23T21:09:27.083+09:00  WARN 73595 --- [Course-Enrollment-System] [           main] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "
+2026-02-25T00:11:42.455+09:00  WARN 189801 --- [Course-Enrollment-System] [           main] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "
     alter table courses 
        drop 
        foreign key FKsj4okul9jc8m3p4tsnuobqjpb" via JDBC [Table 'course_enrollment.courses' doesn't exist]
@@ -149,7 +149,7 @@ Caused by: java.sql.SQLSyntaxErrorException: Table 'course_enrollment.courses' d
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.5.3.Final.jar:6.5.3.Final]
 	... 39 common frames omitted
 
-2026-02-23T21:09:27.084+09:00  WARN 73595 --- [Course-Enrollment-System] [           main] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "
+2026-02-25T00:11:42.456+09:00  WARN 189801 --- [Course-Enrollment-System] [           main] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "
     alter table professors 
        drop 
        foreign key FKpguqb9fhf7yoygkexhjw1viwj" via JDBC [Table 'course_enrollment.professors' doesn't exist]
@@ -208,7 +208,7 @@ Caused by: java.sql.SQLSyntaxErrorException: Table 'course_enrollment.professors
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.5.3.Final.jar:6.5.3.Final]
 	... 39 common frames omitted
 
-2026-02-23T21:09:27.085+09:00  WARN 73595 --- [Course-Enrollment-System] [           main] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "
+2026-02-25T00:11:42.457+09:00  WARN 189801 --- [Course-Enrollment-System] [           main] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "
     alter table students 
        drop 
        foreign key FKalgc33nsolpmegw14o3h6g6rr" via JDBC [Table 'course_enrollment.students' doesn't exist]
@@ -267,11 +267,11 @@ Caused by: java.sql.SQLSyntaxErrorException: Table 'course_enrollment.students' 
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.5.3.Final.jar:6.5.3.Final]
 	... 39 common frames omitted
 
-2026-02-23T21:09:27.233+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-02-23T21:09:27.416+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2026-02-23T21:09:27.907+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
-2026-02-23T21:09:27.912+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] m.g.c.CourseEnrollmentSystemApplication  : Started CourseEnrollmentSystemApplication in 2.553 seconds (process running for 2.699)
-2026-02-23T21:09:28.721+09:00  INFO 73595 --- [Course-Enrollment-System] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2026-02-23T21:09:28.721+09:00  INFO 73595 --- [Course-Enrollment-System] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2026-02-23T21:09:28.722+09:00  INFO 73595 --- [Course-Enrollment-System] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2026-02-23T21:09:29.568+09:00  INFO 73595 --- [Course-Enrollment-System] [           main] m.g.c.i.config.InitialDataGenerator      : Initial data generation completed. departments=12, professors=120, students=10000, courses=600, elapsedMs=1609
+2026-02-25T00:11:42.638+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-25T00:11:42.818+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-25T00:11:43.314+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-02-25T00:11:43.319+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] m.g.c.CourseEnrollmentSystemApplication  : Started CourseEnrollmentSystemApplication in 2.56 seconds (process running for 2.704)
+2026-02-25T00:11:44.123+09:00  INFO 189801 --- [Course-Enrollment-System] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-25T00:11:44.124+09:00  INFO 189801 --- [Course-Enrollment-System] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-25T00:11:44.124+09:00  INFO 189801 --- [Course-Enrollment-System] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2026-02-25T00:11:45.048+09:00  INFO 189801 --- [Course-Enrollment-System] [           main] m.g.c.i.config.InitialDataGenerator      : Initial data generation completed. departments=12, professors=120, students=10000, courses=600, elapsedMs=1677
