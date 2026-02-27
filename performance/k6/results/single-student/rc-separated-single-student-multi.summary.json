@@ -1,0 +1,53 @@
+{
+  "scenario": "rc-separated-single-student-multi",
+  "workload": {
+    "selectionMode": "spread",
+    "plannedAttempts": 12,
+    "courseCount": 12
+  },
+  "student": {
+    "id": 1,
+    "totalCreditsFinal": 17,
+    "enrolledCoursesFinal": 5
+  },
+  "totals": {
+    "total": 12,
+    "attempts": 12,
+    "status201": 5,
+    "status409": 0,
+    "status422": 7,
+    "unexpected": 0,
+    "unexpectedByStatus": {}
+  },
+  "errorCodes": {
+    "duplicate409": 0,
+    "concurrencyConflict409": 0,
+    "other409": 0,
+    "scheduleConflict422": 0,
+    "creditLimit422": 7,
+    "capacity422": 0,
+    "other422": 0
+  },
+  "ratios": {
+    "successRate": 0.4166666666666667,
+    "conflictRate": 0,
+    "ruleViolationRate": 0.5833333333333334
+  },
+  "latencyMs": {
+    "avg": 15.520139416666671,
+    "med": 10.4914705,
+    "max": 67.522469,
+    "p95": 42.90791254999996,
+    "p99": 62.59955771000003
+  },
+  "throughputRps": 1.7656130135544166,
+  "domainAssertions": {
+    "allowedCodesOnly": true,
+    "noUnexpectedStatus": true,
+    "requestCountMatched": true,
+    "creditsWithinLimit": true,
+    "timetableConflictFree": true,
+    "expectedScheduleConflictObserved": true,
+    "pass": true
+  }
+}
